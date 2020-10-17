@@ -42,6 +42,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button globalsButton;
     @FXML
+    private Button geometricButton;
+    @FXML
     private Button dataButton;
     @FXML
     private Button totalColorsButton;
@@ -51,6 +53,8 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar globals;
     @FXML
     private ToolBar dataBar;
+    @FXML
+    private ToolBar geometrics;
     
     ImageCustom ourImage = new ImageCustom();
     GlobalFilter globalFilter = new GlobalFilter();
@@ -61,22 +65,7 @@ public class FXMLDocumentController implements Initializable {
         BufferedImage preImage = ImageIO.read(new File("./src/images/Desert.bmp"));
         ourImage.setOriginal(preImage);
         ourImage.setWidth(ourImage.getOriginal().getWidth());
-        ourImage.setHeight(ourImage.getOriginal().getHeight());
-        
-        ArrayList colors = new ArrayList();
-         for (int y = 0; y < preImage.getHeight(); y++) {
-         for (int x = 0; x < preImage.getWidth(); x++) {
-            //Retrieving contents of a pixel
-            int pixel = preImage.getRGB(x,y);
-            if(!(colors.contains(pixel))){
-                colors.add(pixel);
-            }
-            }
-        }
-         ourImage.setTotalColors(colors.size());
-         
-        
-        
+        ourImage.setHeight(ourImage.getOriginal().getHeight());        
         ourImage.reSize(ourImage.getWidth(), ourImage.getHeight());
         ourImage.setResult(preImage);
         
@@ -88,10 +77,12 @@ public class FXMLDocumentController implements Initializable {
        if (globals.isVisible() == false){
            globals.setVisible(true);
            dataButton.setVisible(false);
+           geometricButton.setVisible(false);
            globalsButton.setText("Back");
        }else{
            globals.setVisible(false);
            dataButton.setVisible(true);
+           geometricButton.setVisible(true);
            globalsButton.setText("Globales");
        }
     }
@@ -101,14 +92,32 @@ public class FXMLDocumentController implements Initializable {
        if (dataBar.isVisible() == false){
            dataBar.setVisible(true);
            globalsButton.setVisible(false);
+           geometricButton.setVisible(false);
            dataButton.setLayoutX(77);
            dataButton.setText("Back");
        }else{
            dataBar.setVisible(false);
            dataLabel.setVisible(false);
            globalsButton.setVisible(true);
+           geometricButton.setVisible(true);
            dataButton.setLayoutX(149);
            dataButton.setText("Image data");
+       }
+    }
+     @FXML
+    private void showGeometrics(ActionEvent event) throws IOException {
+       if (geometrics.isVisible() == false){
+           geometrics.setVisible(true);
+           dataButton.setVisible(false);
+           globalsButton.setVisible(false);
+           geometricButton.setLayoutX(77);
+           geometricButton.setText("Back");
+       }else{
+           geometrics.setVisible(false);
+           dataButton.setVisible(true);
+           globalsButton.setVisible(true);
+           geometricButton.setLayoutX(235);
+           geometricButton.setText("Geometricos");
        }
     }
     
@@ -161,7 +170,50 @@ public class FXMLDocumentController implements Initializable {
     private void getColorsTotal(ActionEvent event) throws IOException {
         int totals = ourImage.getTotalColors();
         dataLabel.setVisible(true);
-        dataLabel.setText("Total de colores: " + totals);
+        
+                ArrayList colors = new ArrayList();
+         for (int y = 0; y < ourImage.getOriginal().getHeight(); y++) {
+         for (int x = 0; x < ourImage.getOriginal().getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = ourImage.getOriginal().getRGB(x,y);
+            if(!(colors.contains(pixel))){
+                colors.add(pixel);
+            }
+            }
+        }
+         ourImage.setTotalColors(colors.size());
+        
+        dataLabel.setText("Total de colores: " + ourImage.getTotalColors());
+    }
+     @FXML
+    private void leftToRight(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(geometricFilter.rotateLToR(ourImage.getOriginal()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void rightToLeft(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(geometricFilter.rotateRToL(ourImage.getOriginal()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
     }
     
     @Override

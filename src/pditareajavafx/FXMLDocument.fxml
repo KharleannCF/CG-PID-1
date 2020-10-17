@@ -25,5 +25,12 @@
         </items>
       </ToolBar>
       <Label fx:id="dataLabel" layoutX="14.0" layoutY="593.0" text="Label" visible="false" />
+      <Button fx:id="geometricButton" layoutX="235.0" layoutY="553.0" mnemonicParsing="false" onAction="#showGeometrics" text="Geometricos" />
+      <ToolBar fx:id="geometrics" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="212.0" visible="false">
+        <items>
+          <Button fx:id="LtoR" mnemonicParsing="false" onAction="#leftToRight" text="Rotar Izquierda" />
+            <Button fx:id="RtoL" mnemonicParsing="false" onAction="#rightToLeft" text="Rotar Derecha" />
+        </items>
+      </ToolBar>
     </children>
 </AnchorPane>

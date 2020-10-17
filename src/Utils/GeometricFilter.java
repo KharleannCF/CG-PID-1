@@ -14,22 +14,36 @@ import java.awt.image.BufferedImage;
  * @author Kharleann
  */
 public class GeometricFilter {
-    public BufferedImage rotateIzqToDer(BufferedImage original){
+    public BufferedImage rotateLToR(BufferedImage original){
         BufferedImage result = new BufferedImage(original.getHeight(),original.getWidth(), BufferedImage.TYPE_INT_RGB);
         Graphics g2 = result.createGraphics();
         
-        for (int y = 0; y < original.getHeight(); y++) {
-         for (int x = 0; x < original.getWidth(); x++) {
+        for (int y = 0; y < result.getHeight(); y++) {
+         for (int x = 0; x < result.getWidth(); x++) {
             //Retrieving contents of a pixel
-            int pixel = original.getRGB(x,y);
+            int pixel = original.getRGB(original.getWidth()-(1+y),x);
             //Creating a Color object from pixel value
             Color color = new Color(pixel, true);
             g2.setColor(color);
-            g2.fillRect(y,original.getHeight()-1-x,y+1, original.getHeight()-x);
+            g2.fillRect(x,y, x+1, y+1);
             }
         }
-        System.out.println(original.getHeight());
-        System.out.println(result.getWidth());
+        return result;
+    }
+    public BufferedImage rotateRToL(BufferedImage original){
+        BufferedImage result = new BufferedImage(original.getHeight(),original.getWidth(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = result.createGraphics();
+        
+        for (int y = 0; y < result.getHeight(); y++) {
+         for (int x = 0; x < result.getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = original.getRGB(y, original.getHeight()-(1+x));
+            //Creating a Color object from pixel value
+            Color color = new Color(pixel, true);
+            g2.setColor(color);
+            g2.fillRect(x,y, x+1, y+1);
+            }
+        }
         return result;
     }
 }
