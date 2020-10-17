@@ -18,11 +18,13 @@ public class ImageCustom {
     public Pixel[][] pixels;
     public int width;
     public int height;
+    public int totalColors;
     
     
     public ImageCustom(){
         width = 0;
         height = 0;
+        totalColors = 0;
     }
     
     public void setOriginal(BufferedImage img){
@@ -54,12 +56,18 @@ public class ImageCustom {
         this.height = newHeight;
     }
     
+    public void setTotalColors(int newColors){
+        this.totalColors = newColors;
+    }
     public int getWidth(){
         return width;
     }
     
     public int getHeight(){
         return height;
+    }
+    public int getTotalColors(){
+        return this.totalColors;
     }
     
     public BufferedImage getOriginal(){

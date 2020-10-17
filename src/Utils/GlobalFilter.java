@@ -49,7 +49,7 @@ public class GlobalFilter {
             int red = color.getRed();
             int green = color.getGreen();
             int blue = color.getBlue();
-            int gray = (int) ((red * 0.3 + green * 0.59 + blue*0.11));
+            int gray = (int) ((red * 0.21 + green * 0.72 + blue*0.07));
             g2.setColor(new Color(gray,gray,gray));
             g2.fillRect(x, y, x+1, y+1);
             }

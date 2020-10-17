@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="379.0" prefWidth="369.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="pditareajavafx.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="624.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-        <Button fx:id="cargar" layoutX="14.0" layoutY="340.0" onAction="#loadImage" text="Cargar" />
-      <ImageView fx:id="imgV" fitHeight="311.0" fitWidth="341.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="negative" layoutX="74.0" layoutY="340.0" mnemonicParsing="false" onAction="#negative" text="Negativo" />
-      <Button fx:id="grayScale" layoutX="147.0" layoutY="340.0" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
-      <Button fx:id="borders" layoutX="223.0" layoutY="340.0" mnemonicParsing="false" onAction="#Borders" text="Bordes" />
+      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
+      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="212.0" visible="false">
+        <items>
+            <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
+            <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
+            <Button fx:id="borders" mnemonicParsing="false" onAction="#Borders" text="Bordes" />
+        </items>
+      </ToolBar>
+      <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />
+      <Button fx:id="dataButton" layoutX="149.0" layoutY="553.0" mnemonicParsing="false" onAction="#showData" text="Image Data" />
+      <ToolBar fx:id="dataBar" layoutX="149.0" layoutY="545.0" onDragDetected="#showData" prefHeight="40.0" prefWidth="200.0" visible="false">
+        <items>
+          <Button fx:id="totalColorsButton" mnemonicParsing="false" onAction="#getColorsTotal" text="Colores" />
+        </items>
+      </ToolBar>
+      <Label fx:id="dataLabel" layoutX="14.0" layoutY="593.0" text="Label" visible="false" />
     </children>
 </AnchorPane>
