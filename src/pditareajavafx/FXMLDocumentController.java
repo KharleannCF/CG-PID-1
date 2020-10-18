@@ -220,6 +220,12 @@ public class FXMLDocumentController implements Initializable {
         imgV.setImage(image);
     }
     
+     @FXML
+    private void save(ActionEvent event) throws IOException {
+         System.out.println("Boton de guardar");
+    }
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

@@ -32,5 +32,6 @@
             <Button fx:id="RtoL" mnemonicParsing="false" onAction="#rightToLeft" text="Rotar Derecha" />
         </items>
       </ToolBar>
+      <Button fx:id="saveButton" layoutX="448.0" layoutY="589.0" mnemonicParsing="false" onAction="#save" text="Guardar" />
     </children>
 </AnchorPane>
