@@ -29,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -222,7 +223,14 @@ public class FXMLDocumentController implements Initializable {
     
      @FXML
     private void save(ActionEvent event) throws IOException {
-         System.out.println("Boton de guardar");
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int returnValue = jfc.showSaveDialog(null);
+        BufferedImage bImage = ourImage.getResult();
+        File selectedFile = jfc.getSelectedFile();
+        String fileName = selectedFile.toString();
+        int index = fileName.lastIndexOf('.');
+        String extension = fileName.substring(index + 1);
+        ImageIO.write(bImage, extension, selectedFile);
     }
     
     
