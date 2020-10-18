@@ -172,7 +172,15 @@ public class FXMLDocumentController implements Initializable {
     }
      @FXML
     private void getColorsTotal(ActionEvent event) throws IOException {
-        int totals = ourImage.getTotalColors();
+         try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
         dataLabel.setVisible(true);
         
                 ArrayList colors = new ArrayList();
