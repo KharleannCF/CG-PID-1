@@ -25,9 +25,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
-
 import javafx.scene.image.ImageView;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -62,7 +63,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void loadImage(ActionEvent event) throws IOException {
-        BufferedImage preImage = ImageIO.read(new File("./src/images/Desert.bmp"));
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int returnValue = jfc.showOpenDialog(null);
+        File selectedFile = jfc.getSelectedFile();
+        BufferedImage preImage = ImageIO.read(selectedFile);
         ourImage.setOriginal(preImage);
         ourImage.setWidth(ourImage.getOriginal().getWidth());
         ourImage.setHeight(ourImage.getOriginal().getHeight());        
