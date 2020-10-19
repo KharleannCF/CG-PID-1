@@ -10,7 +10,7 @@ package pditareajavafx;
 import Utils.GeometricFilter;
 import Utils.GlobalFilter;
 import Utils.ImageCustom;
-import java.awt.Color;
+import Utils.LocalFilter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 import javax.imageio.ImageIO;
@@ -58,9 +57,17 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ToolBar geometrics;
     
+    
+    
+    
+    
     ImageCustom ourImage = new ImageCustom();
     GlobalFilter globalFilter = new GlobalFilter();
+    LocalFilter localFilter = new LocalFilter();
     GeometricFilter geometricFilter = new GeometricFilter();
+    
+    
+
     
     @FXML
     private void loadImage(ActionEvent event) throws IOException {
@@ -167,7 +174,18 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        ourImage.setResult(globalFilter.borders(ourImage.getOriginal()));
+        int [][] kernel = new int[3][3];
+        kernel[0][0]= 1;
+        kernel[1][0]= 2;
+        kernel[2][0]= 1;
+        kernel[0][1]= 2;
+        kernel[1][1]= 4;
+        kernel[1][1]= 2;
+        kernel[0][2]= 1;
+        kernel[1][2]= 2;
+        kernel[2][2]= 1;
+
+        ourImage.setResult(localFilter.borders(ourImage.getOriginal(), kernel));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
