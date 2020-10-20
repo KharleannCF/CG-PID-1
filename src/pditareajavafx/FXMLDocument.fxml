@@ -34,7 +34,7 @@
       </ToolBar>
       <Button fx:id="saveButton" layoutX="448.0" layoutY="589.0" mnemonicParsing="false" onAction="#save" text="Guardar" />
       <Button fx:id="localButton" layoutX="325.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocal" text="Locales" />
-      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="350.0">
+      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="350.0" visible="false">
         <items>
           <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
             <Button fx:id="borders" mnemonicParsing="false" onAction="#Borders" text="Bordes" />
