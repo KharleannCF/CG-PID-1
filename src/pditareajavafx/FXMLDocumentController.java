@@ -53,6 +53,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ToolBar globals;
     @FXML
+    private ToolBar locals;
+    @FXML
+    private Button localButton;
+    @FXML
     private ToolBar dataBar;
     @FXML
     private ToolBar geometrics;
@@ -89,11 +93,13 @@ public class FXMLDocumentController implements Initializable {
        if (globals.isVisible() == false){
            globals.setVisible(true);
            dataButton.setVisible(false);
+           localButton.setVisible(false);
            geometricButton.setVisible(false);
            globalsButton.setText("Back");
        }else{
            globals.setVisible(false);
            dataButton.setVisible(true);
+           localButton.setVisible(true);
            geometricButton.setVisible(true);
            globalsButton.setText("Globales");
        }
@@ -105,12 +111,14 @@ public class FXMLDocumentController implements Initializable {
            dataBar.setVisible(true);
            globalsButton.setVisible(false);
            geometricButton.setVisible(false);
+           localButton.setVisible(false);
            dataButton.setLayoutX(77);
            dataButton.setText("Back");
        }else{
            dataBar.setVisible(false);
            dataLabel.setVisible(false);
            globalsButton.setVisible(true);
+           localButton.setVisible(true);
            geometricButton.setVisible(true);
            dataButton.setLayoutX(149);
            dataButton.setText("Image data");
@@ -121,6 +129,7 @@ public class FXMLDocumentController implements Initializable {
        if (geometrics.isVisible() == false){
            geometrics.setVisible(true);
            dataButton.setVisible(false);
+           localButton.setVisible(false);
            globalsButton.setVisible(false);
            geometricButton.setLayoutX(77);
            geometricButton.setText("Back");
@@ -128,8 +137,27 @@ public class FXMLDocumentController implements Initializable {
            geometrics.setVisible(false);
            dataButton.setVisible(true);
            globalsButton.setVisible(true);
+           localButton.setVisible(true);
            geometricButton.setLayoutX(235);
            geometricButton.setText("Geometricos");
+       }
+    }
+    @FXML
+    private void showLocal(ActionEvent event) throws IOException {
+       if (locals.isVisible() == false){
+           locals.setVisible(true);
+           dataButton.setVisible(false);
+           globalsButton.setVisible(false);
+           geometricButton.setVisible(false);
+           localButton.setLayoutX(77);
+           localButton.setText("Back");
+       }else{
+           locals.setVisible(false);
+           dataButton.setVisible(true);
+           globalsButton.setVisible(true);
+           geometricButton.setVisible(true);
+           localButton.setLayoutX(325);
+           localButton.setText("Locales");
        }
     }
     
@@ -174,18 +202,158 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        int [][] kernel = new int[2][1];
+        kernel[0][0]= -1;
+        kernel[1][0]= 1;
+        
+
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void Gaussiano(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
         int [][] kernel = new int[3][3];
         kernel[0][0]= 1;
         kernel[1][0]= 2;
         kernel[2][0]= 1;
         kernel[0][1]= 2;
         kernel[1][1]= 4;
-        kernel[1][1]= 2;
+        kernel[2][1]= 2;
         kernel[0][2]= 1;
         kernel[1][2]= 2;
         kernel[2][2]= 1;
+        
 
-        ourImage.setResult(localFilter.borders(ourImage.getOriginal(), kernel));
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void Sobel(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int [][] kernel = new int[3][3];
+        kernel[0][0]= -1;
+        kernel[1][0]= 0;
+        kernel[2][0]= 1;
+        kernel[0][1]= -2;
+        kernel[1][1]= 0;
+        kernel[2][1]= 2;
+        kernel[0][2]= -1;
+        kernel[1][2]= 0;
+        kernel[2][2]= 1;
+        
+
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+     @FXML
+    private void scharr(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int [][] kernel = new int[3][3];
+        kernel[0][0]= -3;
+        kernel[1][0]= 0;
+        kernel[2][0]= 3;
+        kernel[0][1]= -10;
+        kernel[1][1]= 0;
+        kernel[2][1]= 10;
+        kernel[0][2]= -3;
+        kernel[1][2]= 0;
+        kernel[2][2]= 3;
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+         @FXML
+    private void prewitt(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int [][] kernel = new int[3][3];
+        kernel[0][0]= -1;
+        kernel[1][0]= 0;
+        kernel[2][0]= 1;
+        kernel[0][1]= -1;
+        kernel[1][1]= 0;
+        kernel[2][1]= 1;
+        kernel[0][2]= -1;
+        kernel[1][2]= 0;
+        kernel[2][2]= 1;
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+@FXML
+    private void kernelRedondo(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int [][] kernel = new int[5][5];
+        kernel[0][0]= 0;
+        kernel[1][0]= 1;
+        kernel[2][0]= 2;
+        kernel[3][0]= 1;
+        kernel[4][0]= 0;
+        kernel[0][1]= 1;
+        kernel[1][1]= 1;
+        kernel[2][1]= -4;
+        kernel[3][1]= 1;
+        kernel[4][1]= 3;
+        kernel[0][2]= 4;
+        kernel[1][2]= 1;
+        kernel[2][2]= -2;
+        kernel[3][2]= 5;
+        kernel[4][2]= 1;
+        kernel[0][3]= 0;
+        kernel[1][3]= 1;
+        kernel[2][3]= -5;
+        kernel[3][3]= -4;
+        kernel[4][3]= 5;
+        kernel[0][4]= 0;
+        kernel[1][4]= 1;
+        kernel[2][4]= 1;
+        kernel[3][4]= 1;
+        kernel[4][4]= 0;
+        
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
@@ -215,6 +383,20 @@ public class FXMLDocumentController implements Initializable {
          ourImage.setTotalColors(colors.size());
         
         dataLabel.setText("Total de colores: " + ourImage.getTotalColors());
+    }
+     @FXML
+    private void getDimensions(ActionEvent event) throws IOException {
+         try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        dataLabel.setVisible(true);
+        dataLabel.setText("Dimensiones de la imagen: " + ourImage.getWidth() +  " x " + ourImage.getHeight());
     }
      @FXML
     private void leftToRight(ActionEvent event) throws IOException {

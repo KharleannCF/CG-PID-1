@@ -60,11 +60,11 @@ public class ImageCustom {
         this.totalColors = newColors;
     }
     public int getWidth(){
-        return width;
+        return this.original.getWidth();
     }
     
     public int getHeight(){
-        return height;
+        return this.original.getHeight();
     }
     public int getTotalColors(){
         return this.totalColors;

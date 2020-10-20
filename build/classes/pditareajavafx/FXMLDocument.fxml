@@ -14,7 +14,6 @@
         <items>
             <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
             <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
-            <Button fx:id="borders" mnemonicParsing="false" onAction="#Borders" text="Bordes" />
         </items>
       </ToolBar>
       <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />
@@ -22,6 +21,7 @@
       <ToolBar fx:id="dataBar" layoutX="149.0" layoutY="545.0" onDragDetected="#showData" prefHeight="40.0" prefWidth="200.0" visible="false">
         <items>
           <Button fx:id="totalColorsButton" mnemonicParsing="false" onAction="#getColorsTotal" text="Colores" />
+            <Button fx:id="dimensionsButton" mnemonicParsing="false" onAction="#getDimensions" text="Dimensiones" />
         </items>
       </ToolBar>
       <Label fx:id="dataLabel" layoutX="14.0" layoutY="593.0" text="Label" visible="false" />
@@ -33,5 +33,16 @@
         </items>
       </ToolBar>
       <Button fx:id="saveButton" layoutX="448.0" layoutY="589.0" mnemonicParsing="false" onAction="#save" text="Guardar" />
+      <Button fx:id="localButton" layoutX="325.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocal" text="Locales" />
+      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="350.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
+            <Button fx:id="borders" mnemonicParsing="false" onAction="#Borders" text="Bordes" />
+            <Button mnemonicParsing="false" onAction="#Sobel" text="Sobel" />
+            <Button mnemonicParsing="false" onAction="#scharr" text="Scharr" />
+            <Button mnemonicParsing="false" onAction="#prewitt" text="Prewitt" />
+            <Button mnemonicParsing="false" onAction="#kernelRedondo" text="Redondo" />
+        </items>
+      </ToolBar>
     </children>
 </AnchorPane>
