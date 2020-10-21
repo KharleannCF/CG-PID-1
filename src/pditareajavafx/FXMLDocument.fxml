@@ -10,10 +10,11 @@
     <children>
       <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
-      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="212.0" visible="false">
+      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="250.0" visible="false">
         <items>
             <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
             <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
+            <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
         </items>
       </ToolBar>
       <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />

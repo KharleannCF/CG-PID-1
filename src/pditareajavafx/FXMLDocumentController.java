@@ -9,6 +9,7 @@ package pditareajavafx;
 
 import Utils.GeometricFilter;
 import Utils.GlobalFilter;
+import Utils.Histogram;
 import Utils.ImageCustom;
 import Utils.LocalFilter;
 import java.awt.image.BufferedImage;
@@ -69,9 +70,8 @@ public class FXMLDocumentController implements Initializable {
     GlobalFilter globalFilter = new GlobalFilter();
     LocalFilter localFilter = new LocalFilter();
     GeometricFilter geometricFilter = new GeometricFilter();
+    Histogram histogramFilter = new Histogram();
     
-    
-
     
     @FXML
     private void loadImage(ActionEvent event) throws IOException {
@@ -173,6 +173,21 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         ourImage.setResult(globalFilter.negative(ourImage.getOriginal()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void createHistogram(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(histogramFilter.histogram(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
