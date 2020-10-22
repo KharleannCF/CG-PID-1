@@ -58,6 +58,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button localButton;
     @FXML
+    private Button flattenButton;
+    @FXML
     private ToolBar dataBar;
     @FXML
     private ToolBar geometrics;
@@ -188,6 +190,22 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         ourImage.setResult(histogramFilter.histogram(ourImage.getOriginal()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        flattenButton.setVisible(true);
+    }
+    @FXML
+    private void flattenHistogram(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(histogramFilter.histogramFlatten(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
