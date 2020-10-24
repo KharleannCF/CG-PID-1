@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javax.swing.JFileChooser;
@@ -63,6 +64,10 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar dataBar;
     @FXML
     private ToolBar geometrics;
+    @FXML
+    private ToolBar personalizedKernel;
+    @FXML
+    private GridPane kernel;
     
     
     
