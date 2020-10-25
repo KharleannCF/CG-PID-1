@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,6 +56,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button totalColorsButton;
     @FXML
+    private Button saveButton;
+    @FXML
     private Label dataLabel;
     @FXML
     private ToolBar globals;
@@ -63,6 +67,8 @@ public class FXMLDocumentController implements Initializable {
     private Button localButton;
     @FXML
     private Button flattenButton;
+    @FXML
+    private Button doneButton;
     @FXML
     private ToolBar dataBar;
     @FXML
@@ -202,7 +208,21 @@ public class FXMLDocumentController implements Initializable {
         //ourImage.setResult();
         Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
+        saveButton.setVisible(false);
+        BWSlider.setVisible(true);
+        doneButton.setVisible(true);
+        
     }
+    @FXML
+    private void doneUmbral(ActionEvent event){
+        Image actual = imgV.getImage();
+        BufferedImage newImage = SwingFXUtils.fromFXImage(actual, null);
+        ourImage.setResult(newImage);
+        doneButton.setVisible(false);
+        saveButton.setVisible(true);
+        BWSlider.setVisible(false);
+    }
+    
     @FXML
     public void blackAndWhiteSlider() throws IOException {
         try {
@@ -502,6 +522,7 @@ public class FXMLDocumentController implements Initializable {
         ourImage.setResult(geometricFilter.rotateRToL(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
+        
     }
     
      @FXML
@@ -520,7 +541,22 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+           BWSlider.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+               try {
+                   if (ourImage.getResult()!=null){
+                       ourImage.setOriginal(ourImage.getResult());
+                   }else{
+                       ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+                   }
+               } catch (IOException ex) {
+                   System.out.println("Picture not found");
+               }
+               double value = BWSlider.getValue();
+               System.out.println("hola");
+               //ourImage.setResult();
+               Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
+               imgV.setImage(image);
+           });
         
     }    
     

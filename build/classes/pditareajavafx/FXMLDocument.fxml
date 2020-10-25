@@ -136,6 +136,7 @@
             </MenuButton>
         </items>
       </ToolBar>
-      <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onDragDetected="#blackAndWhiteReal" showTickMarks="true" value="127.0" />
+      <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onDragDetected="#blackAndWhiteReal" showTickMarks="true" value="127.0" visible="false" />
+      <Button fx:id="doneButton" layoutX="20.0" layoutY="589.0" mnemonicParsing="false" onAction="#doneUmbral" text="Listo" visible="false" />
     </children>
 </AnchorPane>
