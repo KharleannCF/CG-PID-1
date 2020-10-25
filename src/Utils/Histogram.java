@@ -98,11 +98,7 @@ public class Histogram {
         BufferedImage histGreen = original.getSubimage(0, 425, 256*5-1, 850);
         
         Graphics g2 = result.createGraphics();
-        /*
-        Color white = new Color(255,255,255);
-        g2.setColor(white);
-        g2.fillRect(0, 0, 256*5, 425);
-        */
+        
         for(int y = 0; y< 425; y++){
             for(int x=0; x<255*5; x=x+5){
                  int pixelRed = histRed.getRGB(x,y);

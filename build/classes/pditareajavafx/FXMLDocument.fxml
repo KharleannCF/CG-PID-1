@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="624.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="7.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
-      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="250.0" visible="false">
+      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="366.0" visible="false">
         <items>
             <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
             <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
             <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
+            <Button fx:id="blackAndWhiteButton" mnemonicParsing="false" onAction="#blackAndWhiteReal" text="Blanco y negro" />
         </items>
       </ToolBar>
       <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />
@@ -25,7 +32,6 @@
             <Button fx:id="dimensionsButton" mnemonicParsing="false" onAction="#getDimensions" text="Dimensiones" />
         </items>
       </ToolBar>
-      <Label fx:id="dataLabel" layoutX="14.0" layoutY="593.0" text="Label" visible="false" />
       <Button fx:id="geometricButton" layoutX="235.0" layoutY="553.0" mnemonicParsing="false" onAction="#showGeometrics" text="Geometricos" />
       <ToolBar fx:id="geometrics" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="212.0" visible="false">
         <items>
@@ -33,7 +39,7 @@
             <Button fx:id="RtoL" mnemonicParsing="false" onAction="#rightToLeft" text="Rotar Derecha" />
         </items>
       </ToolBar>
-      <Button fx:id="saveButton" layoutX="448.0" layoutY="589.0" mnemonicParsing="false" onAction="#save" text="Guardar" />
+      <Button fx:id="saveButton" layoutX="11.0" layoutY="589.0" mnemonicParsing="false" onAction="#save" text="Guardar" />
       <Button fx:id="localButton" layoutX="325.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocal" text="Locales" />
       <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="350.0" visible="false">
         <items>
@@ -46,5 +52,90 @@
         </items>
       </ToolBar>
       <Button fx:id="flattenButton" layoutX="16.0" layoutY="581.0" mnemonicParsing="false" onAction="#flattenHistogram" text="Aplanar" visible="false" />
+      <Button layoutX="255.0" layoutY="589.0" mnemonicParsing="false" text="Kernel Personalizado" />
+      <ToolBar fx:id="personalizedKernel" layoutX="75.0" layoutY="514.0" prefHeight="220.0" prefWidth="310.0" visible="false">
+        <items>
+            <GridPane fx:id="kernel" gridLinesVisible="true">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="20.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField />
+                  <TextField GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="2" />
+                  <TextField GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="3" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="4" />
+                  <TextField GridPane.columnIndex="5" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="6" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                  <TextField GridPane.rowIndex="2" />
+                  <TextField GridPane.rowIndex="3" />
+                  <TextField GridPane.rowIndex="4" />
+                  <TextField GridPane.rowIndex="5" />
+                  <TextField GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+            <MenuButton mnemonicParsing="false" text="Opciones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Agregar Fila" />
+                <MenuItem mnemonicParsing="false" text="Agregar Columna" />
+                  <MenuItem mnemonicParsing="false" text="Aplicar Filtro" />
+                  <MenuItem mnemonicParsing="false" text="Volver" />
+              </items>
+            </MenuButton>
+        </items>
+      </ToolBar>
+      <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onDragDetected="#blackAndWhiteReal" showTickMarks="true" value="127.0" />
     </children>
 </AnchorPane>

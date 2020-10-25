@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
@@ -40,6 +41,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private ImageView imgV;
+    @FXML
+    private Slider BWSlider;
     @FXML
     private Button cargar;
     @FXML
@@ -181,6 +184,40 @@ public class FXMLDocumentController implements Initializable {
         }
         ourImage.setResult(globalFilter.negative(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void blackAndWhiteReal(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = BWSlider.getValue();
+        System.out.println("hola");
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    public void blackAndWhiteSlider() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = BWSlider.getValue();
+        System.out.println("hola");
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
     @FXML
@@ -483,6 +520,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         
     }    
     
