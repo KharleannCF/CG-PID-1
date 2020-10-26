@@ -24,8 +24,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
@@ -77,7 +79,14 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar personalizedKernel;
     @FXML
     private GridPane kernel;
-    
+    @FXML
+     private Group borderKernels;
+    @FXML
+     private RadioButton matrix3;
+    @FXML
+     private RadioButton matrix5;
+    @FXML
+     private RadioButton matrix7;
     
     
     
@@ -87,7 +96,31 @@ public class FXMLDocumentController implements Initializable {
     LocalFilter localFilter = new LocalFilter();
     GeometricFilter geometricFilter = new GeometricFilter();
     Histogram histogramFilter = new Histogram();
+    int borderKernelSize = 3;
     
+    @FXML
+    private void selected3(ActionEvent event) throws IOException {
+    matrix3.setSelected(true);
+    matrix5.setSelected(false);
+    matrix7.setSelected(false);
+    borderKernelSize = 3;
+    }
+    
+    @FXML
+    private void selected5(ActionEvent event) throws IOException {
+    matrix5.setSelected(true);
+    matrix3.setSelected(false);
+    matrix7.setSelected(false);
+    borderKernelSize = 5;
+    }
+    
+    @FXML
+    private void selected7(ActionEvent event) throws IOException {
+    matrix7.setSelected(true);
+    matrix5.setSelected(false);
+    matrix3.setSelected(false);
+    borderKernelSize = 7;
+    }
     
     @FXML
     private void loadImage(ActionEvent event) throws IOException {
@@ -127,12 +160,12 @@ public class FXMLDocumentController implements Initializable {
            dataBar.setVisible(true);
            globalsButton.setVisible(false);
            geometricButton.setVisible(false);
+           
            localButton.setVisible(false);
            dataButton.setLayoutX(77);
            dataButton.setText("Back");
        }else{
            dataBar.setVisible(false);
-           dataLabel.setVisible(false);
            globalsButton.setVisible(true);
            localButton.setVisible(true);
            geometricButton.setVisible(true);
@@ -164,12 +197,16 @@ public class FXMLDocumentController implements Initializable {
            locals.setVisible(true);
            dataButton.setVisible(false);
            globalsButton.setVisible(false);
+           borderKernels.setVisible(true);
            geometricButton.setVisible(false);
+           doneButton.setVisible(true);
+           saveButton.setVisible(false);
            localButton.setLayoutX(77);
            localButton.setText("Back");
        }else{
            locals.setVisible(false);
            dataButton.setVisible(true);
+           borderKernels.setVisible(false);
            globalsButton.setVisible(true);
            geometricButton.setVisible(true);
            localButton.setLayoutX(325);
@@ -221,6 +258,15 @@ public class FXMLDocumentController implements Initializable {
         doneButton.setVisible(false);
         saveButton.setVisible(true);
         BWSlider.setVisible(false);
+        if (locals.isVisible() == true){
+           locals.setVisible(false);
+           dataButton.setVisible(true);
+           borderKernels.setVisible(false);
+           globalsButton.setVisible(true);
+           geometricButton.setVisible(true);
+           localButton.setLayoutX(325);
+           localButton.setText("Locales");
+       }
     }
     
     @FXML
@@ -328,7 +374,7 @@ public class FXMLDocumentController implements Initializable {
         kernel[1][2]= 2;
         kernel[2][2]= 1;
         
-
+        
         ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -344,20 +390,21 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        int [][] kernel = new int[3][3];
-        kernel[0][0]= -1;
-        kernel[1][0]= 0;
-        kernel[2][0]= 1;
-        kernel[0][1]= -2;
-        kernel[1][1]= 0;
-        kernel[2][1]= 2;
-        kernel[0][2]= -1;
-        kernel[1][2]= 0;
-        kernel[2][2]= 1;
         
-
-        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
-        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        int [][]  kernel = new int[borderKernelSize][1];
+        int [][] kernel2 = new int[1][borderKernelSize];
+        for (int i=0; i <= borderKernelSize/2; i++ ){
+        kernel[i][0] = (int) Math.pow(2, i);
+        kernel[borderKernelSize-(i+1)][0] = (int) Math.pow(2, i);
+        kernel2[0][i] = -1;
+        kernel2[0][borderKernelSize-(i+1)] = 1;
+        }
+        kernel2[0][borderKernelSize/2 + 1] = 0;
+        
+        BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        tempImage = (localFilter.kernelApplier(tempImage, kernel2));
+        
+        Image image = SwingFXUtils.toFXImage(tempImage, null);
         imgV.setImage(image);
     }
      @FXML
@@ -396,18 +443,21 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        int [][] kernel = new int[3][3];
-        kernel[0][0]= -1;
-        kernel[1][0]= 0;
-        kernel[2][0]= 1;
-        kernel[0][1]= -1;
-        kernel[1][1]= 0;
-        kernel[2][1]= 1;
-        kernel[0][2]= -1;
-        kernel[1][2]= 0;
-        kernel[2][2]= 1;
-        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
-        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        
+        int [][]  kernel = new int[borderKernelSize][1];
+        int [][] kernel2 = new int[1][borderKernelSize];
+        for (int i=0; i <= borderKernelSize/2; i++ ){
+        kernel[i][0] = 1;
+        kernel[borderKernelSize-(i+1)][0] = 1;
+        kernel2[0][i] = -1;
+        kernel2[0][borderKernelSize-(i+1)] = 1;
+        }
+        kernel2[0][borderKernelSize/2 + 1] = 0;
+        
+        BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        tempImage = (localFilter.kernelApplier(tempImage, kernel2));
+        
+        Image image = SwingFXUtils.toFXImage(tempImage, null);
         imgV.setImage(image);
     }
 @FXML
