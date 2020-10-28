@@ -391,20 +391,35 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         
-        int [][]  kernel = new int[borderKernelSize][1];
+        int [][] kernel = new int[borderKernelSize][1];
         int [][] kernel2 = new int[1][borderKernelSize];
+        int [][]  kernelY = new int[1][borderKernelSize];
+        int [][] kernelY2 = new int[borderKernelSize][1];
+        
         for (int i=0; i <= borderKernelSize/2; i++ ){
         kernel[i][0] = (int) Math.pow(2, i);
+        kernelY[0][i] = (int) Math.pow(2, i);
         kernel[borderKernelSize-(i+1)][0] = (int) Math.pow(2, i);
+        kernelY[0][borderKernelSize-(i+1)] = (int) Math.pow(2, i);
         kernel2[0][i] = -1;
+        kernelY2[i][0] = -1;
         kernel2[0][borderKernelSize-(i+1)] = 1;
+        kernelY2[borderKernelSize-(i+1)][0] = 1;
         }
+        
         kernel2[0][borderKernelSize/2 + 1] = 0;
+        kernelY2[borderKernelSize/2 + 1][0] = 0;
         
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        BufferedImage tempImageY = (localFilter.kernelApplier(ourImage.getOriginal(), kernelY));
+        
         tempImage = (localFilter.kernelApplier(tempImage, kernel2));
+        tempImageY = (localFilter.kernelApplier(tempImageY, kernelY2));
+        
+        tempImage = localFilter.gradientCalc(tempImage, tempImageY);
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
+        
         imgV.setImage(image);
     }
      @FXML

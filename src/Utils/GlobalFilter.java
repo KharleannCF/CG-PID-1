@@ -7,7 +7,6 @@ package Utils;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 
 /**
@@ -61,16 +60,11 @@ public class GlobalFilter {
         BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g2 = result.createGraphics();
         
-        
-        
-        
-        
         for (int y = 0; y < original.getHeight(); y++) {
          for (int x = 0; x < original.getWidth(); x++) {
             //Retrieving contents of a pixel
             int pixel1 = original.getRGB(x,y);
-            
-            
+        
             //Creating a Color object from pixel value
             Color color = new Color(pixel1, true);
             

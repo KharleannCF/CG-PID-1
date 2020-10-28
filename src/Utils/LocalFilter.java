@@ -84,4 +84,49 @@ public class LocalFilter {
 
         return result;
     }
+      public BufferedImage gradientCalc(BufferedImage originalX, BufferedImage originalY){
+         int height = originalX.getHeight();
+         int width = originalX.getWidth();
+          System.out.println("Hola");
+         BufferedImage result = new BufferedImage(originalX.getWidth(),originalX.getHeight(), BufferedImage.TYPE_INT_RGB);
+         Graphics g2 = result.createGraphics();
+         
+         for(int y = 0; y < height; y++){
+             for(int x = 0; x < width; x++){
+                   int pixelX = originalX.getRGB(x,y);
+                   int pixelY = originalY.getRGB(x,y);
+                   
+                   Color colorX = new Color(pixelX, true);
+                   Color colorY = new Color(pixelY, true);
+                   
+                    int redX = colorX.getRed();
+                    int greenX = colorX.getGreen();
+                    int blueX = colorX.getBlue();
+                    int redY = colorY.getRed();
+                    int greenY = colorY.getGreen();
+                    int blueY = colorY.getBlue();
+                   redX = (int) Math.pow(redX, 2);
+                   redY = (int) Math.pow(redY, 2);
+                   greenX = (int) Math.pow(greenX, 2);
+                   greenY = (int) Math.pow(greenY, 2);
+                   blueX = (int) Math.pow(blueX,2);
+                   blueY = (int) Math.pow(blueY,2);
+                   
+                   
+                   int red = (int) Math.sqrt(redX+redY);
+                   int green = (int) Math.sqrt(greenX+greenY);
+                   int blue = (int) Math.sqrt(blueX+blueY);
+                   red = red > 255 ? 255:red;
+                   
+                    green = green > 255 ? 255:green;
+                     blue = blue > 255 ? 255 :blue;
+                   
+                   Color color = new Color(red,green,blue);
+                   
+                   g2.setColor(color);
+                   g2.fillRect(x, y, x+1, y+1);
+             }
+         }
+        return result;
+    }
 }
