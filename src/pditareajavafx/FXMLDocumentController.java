@@ -93,6 +93,12 @@ public class FXMLDocumentController implements Initializable {
      private RadioButton matrix4;
     @FXML
      private RadioButton matrix6;
+    @FXML
+     private RadioButton vectorX;
+    @FXML
+     private RadioButton vectorY;
+    @FXML
+     private RadioButton vectorMagnitud;
     
     
     
@@ -104,6 +110,7 @@ public class FXMLDocumentController implements Initializable {
     Histogram histogramFilter = new Histogram();
     int borderKernelSize = 3;
     int robertsSize = 2;
+    char vectorDir ='M';
     
     @FXML
     private void selected3(ActionEvent event) throws IOException {
@@ -143,13 +150,35 @@ public class FXMLDocumentController implements Initializable {
     matrix6.setSelected(false);
     robertsSize = 4;
     }
+     
     @FXML
     private void selected6(ActionEvent event) throws IOException {
     matrix6.setSelected(true);
     matrix4.setSelected(false);
     matrix2.setSelected(false);
     robertsSize = 6;
+    }
     
+    @FXML
+    private void selectedX(ActionEvent event) throws IOException {
+    vectorX.setSelected(true);
+    vectorY.setSelected(false);
+    vectorMagnitud.setSelected(false);
+    vectorDir='X';
+    }
+    @FXML
+    private void selectedY(ActionEvent event) throws IOException {
+    vectorY.setSelected(true);
+    vectorX.setSelected(false);
+    vectorMagnitud.setSelected(false);
+    vectorDir='Y';
+    }
+    @FXML
+    private void selectedMagnitud(ActionEvent event) throws IOException {
+    vectorMagnitud.setSelected(true);
+    vectorX.setSelected(false);
+    vectorY.setSelected(false);
+    vectorDir='M';
     }
     
     @FXML
@@ -440,13 +469,18 @@ public class FXMLDocumentController implements Initializable {
         kernel2[0][borderKernelSize/2 + 1] = 0;
         kernelY2[borderKernelSize/2 + 1][0] = 0;
         
+        
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         BufferedImage tempImageY = (localFilter.kernelApplier(ourImage.getOriginal(), kernelY));
         
         tempImage = (localFilter.kernelApplier(tempImage, kernel2));
         tempImageY = (localFilter.kernelApplier(tempImageY, kernelY2));
+        if(vectorDir == 'M'){
+            tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        }else{
+            tempImage = vectorDir == 'X' ? tempImage : tempImageY;
+        }
         
-        tempImage = localFilter.gradientCalc(tempImage, tempImageY);
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         
@@ -492,7 +526,11 @@ public class FXMLDocumentController implements Initializable {
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         BufferedImage tempImageY = (localFilter.kernelApplier(ourImage.getOriginal(), kernelY));
         
-        tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        if(vectorDir == 'M'){
+            tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        }else{
+            tempImage = vectorDir == 'X' ? tempImage : tempImageY;
+        }
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         
@@ -529,7 +567,11 @@ public class FXMLDocumentController implements Initializable {
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         BufferedImage tempImageY = (localFilter.kernelApplier(ourImage.getOriginal(), kernelY));
         
-        tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        if(vectorDir == 'M'){
+            tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        }else{
+            tempImage = vectorDir == 'X' ? tempImage : tempImageY;
+        }
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         
@@ -573,7 +615,11 @@ public class FXMLDocumentController implements Initializable {
         tempImage = (localFilter.kernelApplier(tempImage, kernel2));
         tempImageY = (localFilter.kernelApplier(tempImageY, kernelY2));
         
-        tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        if(vectorDir == 'M'){
+            tempImage = localFilter.gradientCalc(tempImage, tempImageY);
+        }else{
+            tempImage = vectorDir == 'X' ? tempImage : tempImageY;
+        }
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         

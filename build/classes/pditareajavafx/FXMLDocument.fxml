@@ -17,7 +17,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="249.0" layoutY="89.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
       <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="366.0" visible="false">
         <items>
@@ -140,7 +140,7 @@
       </ToolBar>
       <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onDragDetected="#blackAndWhiteReal" showTickMarks="true" value="127.0" visible="false" />
       <Button fx:id="doneButton" layoutX="20.0" layoutY="589.0" mnemonicParsing="false" onAction="#doneUmbral" text="Listo" visible="false" />
-      <Group fx:id="borderKernels" layoutX="400.0" layoutY="665.0">
+      <Group fx:id="borderKernels" layoutX="400.0" layoutY="665.0" visible="false">
          <children>
             <Label layoutY="-70.0" prefHeight="39.0" prefWidth="54.0" text="Prewitt y Sobel" textAlignment="CENTER" wrapText="true" />
             <RadioButton fx:id="matrix5" layoutX="9.0" mnemonicParsing="false" onAction="#selected5" prefHeight="17.0" prefWidth="37.0" text="5" />
@@ -150,6 +150,10 @@
             <RadioButton fx:id="matrix2" layoutX="66.0" layoutY="-22.0" mnemonicParsing="false" onAction="#selected2" selected="true" text="2" />
             <RadioButton fx:id="matrix4" layoutX="66.0" mnemonicParsing="false" onAction="#selected4" text="4" />
             <RadioButton fx:id="matrix6" layoutX="66.0" layoutY="21.0" mnemonicParsing="false" onAction="#selected6" text="6" />
+            <RadioButton fx:id="vectorX" layoutX="110.0" layoutY="-22.0" mnemonicParsing="false" onAction="#selectedX" text="X" />
+            <RadioButton fx:id="vectorY" layoutX="110.0" mnemonicParsing="false" onAction="#selectedY" text="Y" />
+            <RadioButton fx:id="vectorMagnitud" layoutX="110.0" layoutY="21.0" mnemonicParsing="false" onAction="#selectedMagnitud" selected="true" text="Magnitud" />
+            <Label layoutX="110.0" layoutY="-55.0" text="Vector" />
          </children>
       </Group>
       <Button layoutX="385.0" layoutY="553.0" mnemonicParsing="false" text="Locales" visible="false" />
