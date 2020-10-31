@@ -47,6 +47,12 @@ public class FXMLDocumentController implements Initializable {
     private ImageView imgV;
     @FXML
     private Slider BWSlider;
+    
+    @FXML
+    private Slider localW;
+    @FXML
+    private Slider localH;
+    
     @FXML
     private Button cargar;
     @FXML
@@ -68,6 +74,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button borderButton;
     @FXML
+    private Button localsButton;
+    @FXML
     private Button flattenButton;
     @FXML
     private Button doneButton;
@@ -76,11 +84,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ToolBar geometrics;
     @FXML
+    private ToolBar locals;
+    @FXML
     private ToolBar personalizedKernel;
     @FXML
     private GridPane kernel;
     @FXML
      private Group borderKernels;
+    @FXML
+     private Group localsKernels;
     @FXML
      private RadioButton matrix3;
     @FXML
@@ -112,12 +124,29 @@ public class FXMLDocumentController implements Initializable {
     int robertsSize = 2;
     char vectorDir ='M';
     
+    int localsSizeX = 1;
+    int localsSizeY = 1;
+    
+    
+    
     @FXML
     private void selected3(ActionEvent event) throws IOException {
     matrix3.setSelected(true);
     matrix5.setSelected(false);
     matrix7.setSelected(false);
     borderKernelSize = 3;
+    }
+    
+    @FXML
+    private void moveW() throws IOException {
+        System.out.println((int)localW.getValue());
+    this.localsSizeX = (int) localW.getValue();
+    }
+    
+    @FXML
+    private void moveH() throws IOException {
+        System.out.println((int)localH.getValue());
+    this.localsSizeY = (int) localH.getValue();
     }
     
     @FXML
@@ -166,6 +195,7 @@ public class FXMLDocumentController implements Initializable {
     vectorMagnitud.setSelected(false);
     vectorDir='X';
     }
+    
     @FXML
     private void selectedY(ActionEvent event) throws IOException {
     vectorY.setSelected(true);
@@ -173,6 +203,7 @@ public class FXMLDocumentController implements Initializable {
     vectorMagnitud.setSelected(false);
     vectorDir='Y';
     }
+    
     @FXML
     private void selectedMagnitud(ActionEvent event) throws IOException {
     vectorMagnitud.setSelected(true);
@@ -203,15 +234,37 @@ public class FXMLDocumentController implements Initializable {
            dataButton.setVisible(false);
            borderButton.setVisible(false);
            geometricButton.setVisible(false);
+           localsButton.setVisible(false);
            globalsButton.setText("Back");
        }else{
            globals.setVisible(false);
            dataButton.setVisible(true);
            borderButton.setVisible(true);
            geometricButton.setVisible(true);
+           localsButton.setVisible(true);
            globalsButton.setText("Globales");
        }
     }
+    @FXML
+    private void showGeometrics(ActionEvent event) throws IOException {
+       if (geometrics.isVisible() == false){
+           geometrics.setVisible(true);
+           dataButton.setVisible(false);
+           borderButton.setVisible(false);
+           globalsButton.setVisible(false);
+           localsButton.setVisible(false);
+           geometricButton.setText("Back");
+       }else{
+           geometrics.setVisible(false);
+           dataButton.setVisible(true);
+           borderButton.setVisible(true);
+           globalsButton.setVisible(true);
+           localsButton.setVisible(true);
+           geometricButton.setText("Globales");
+       }
+    }
+    
+    
     
     @FXML
     private void showData(ActionEvent event) throws IOException {
@@ -219,7 +272,7 @@ public class FXMLDocumentController implements Initializable {
            dataBar.setVisible(true);
            globalsButton.setVisible(false);
            geometricButton.setVisible(false);
-           
+           localsButton.setVisible(false);
            borderButton.setVisible(false);
            dataButton.setLayoutX(77);
            dataButton.setText("Back");
@@ -228,26 +281,32 @@ public class FXMLDocumentController implements Initializable {
            globalsButton.setVisible(true);
            borderButton.setVisible(true);
            geometricButton.setVisible(true);
+           localsButton.setVisible(true);
            dataButton.setLayoutX(149);
            dataButton.setText("Image data");
        }
     }
+    
      @FXML
-    private void showGeometrics(ActionEvent event) throws IOException {
-       if (geometrics.isVisible() == false){
-           geometrics.setVisible(true);
+    private void showLocals(ActionEvent event) throws IOException {
+       if (locals.isVisible() == false){
+           locals.setVisible(true);
            dataButton.setVisible(false);
            borderButton.setVisible(false);
+           localsKernels.setVisible(true);
            globalsButton.setVisible(false);
-           geometricButton.setLayoutX(77);
-           geometricButton.setText("Back");
+           geometricButton.setVisible(false);
+           localsButton.setLayoutX(77);
+           localsButton.setText("Back");
        }else{
-           geometrics.setVisible(false);
+           locals.setVisible(false);
            dataButton.setVisible(true);
            globalsButton.setVisible(true);
            borderButton.setVisible(true);
-           geometricButton.setLayoutX(235);
-           geometricButton.setText("Geometricos");
+           localsKernels.setVisible(false);
+           geometricButton.setVisible(true);
+           localsButton.setLayoutX(385);
+           localsButton.setText("Locales");
        }
     }
     @FXML
@@ -260,6 +319,7 @@ public class FXMLDocumentController implements Initializable {
            geometricButton.setVisible(false);
            doneButton.setVisible(true);
            saveButton.setVisible(false);
+           localsButton.setVisible(false);
            borderButton.setLayoutX(77);
            borderButton.setText("Back");
        }else{
@@ -268,8 +328,9 @@ public class FXMLDocumentController implements Initializable {
            borderKernels.setVisible(false);
            globalsButton.setVisible(true);
            geometricButton.setVisible(true);
+           localsButton.setVisible(true);
            borderButton.setLayoutX(325);
-           borderButton.setText("Locales");
+           borderButton.setText("Bordes");
        }
     }
     
@@ -324,7 +385,7 @@ public class FXMLDocumentController implements Initializable {
            globalsButton.setVisible(true);
            geometricButton.setVisible(true);
            borderButton.setLayoutX(325);
-           borderButton.setText("Locales");
+           borderButton.setText("Bordes");
        }
     }
     
@@ -411,6 +472,23 @@ public class FXMLDocumentController implements Initializable {
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
+    
+    
+     static int binomialCoeff(int n, int k) 
+    { 
+        int res = 1; 
+          
+        if (k > n - k) 
+        k = n - k; 
+              
+        for (int i = 0; i < k; ++i) 
+        { 
+            res *= (n - i); 
+            res /= (i + 1); 
+        } 
+        return res; 
+    } 
+     
     @FXML
     private void Gaussiano(ActionEvent event) throws IOException {
         try {
@@ -422,19 +500,38 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        int [][] kernel = new int[3][3];
-        kernel[0][0]= 1;
-        kernel[1][0]= 2;
-        kernel[2][0]= 1;
-        kernel[0][1]= 2;
-        kernel[1][1]= 4;
-        kernel[2][1]= 2;
-        kernel[0][2]= 1;
-        kernel[1][2]= 2;
-        kernel[2][2]= 1;
         
         
-        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        int [][] kernel = new int[localsSizeX][1];
+        int [][] kernelY = new int[1][localsSizeY];
+        int result =0;
+        for (int line = 0; line < localsSizeX; line++) 
+    { 
+        for (int i = 0; i <= line; i++) {
+            result = binomialCoeff 
+                        (line, i); 
+            if(line == (localsSizeX-1)){
+                kernel[i][0] = result; 
+            }   
+        }
+    } 
+        //--------------------------
+        for (int line = 0; line < localsSizeY; line++) 
+    { 
+        for (int i = 0; i <= line; i++) {
+            result = binomialCoeff 
+                        (line, i); 
+            if(line == (localsSizeY-1)){
+                kernelY[0][i] = result; 
+            }   
+        }
+    } 
+        
+        
+        BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        ourImage.setResult(localFilter.kernelApplier(tempImage, kernelY));
+        
+        
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }

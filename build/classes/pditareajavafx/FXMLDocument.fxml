@@ -17,7 +17,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgV" fitHeight="459.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
       <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="366.0" visible="false">
         <items>
@@ -156,12 +156,18 @@
             <Label layoutX="110.0" layoutY="-55.0" text="Vector" />
          </children>
       </Group>
-      <Button layoutX="385.0" layoutY="553.0" mnemonicParsing="false" text="Locales" visible="false" />
-      <ToolBar layoutX="188.0" layoutY="444.0" prefHeight="40.0" prefWidth="200.0" visible="false">
+      <Button fx:id="localsButton" layoutX="385.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocals" text="Locales" />
+      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="200.0" visible="false">
          <items>
             <Button mnemonicParsing="false" onAction="#kernelRedondo" text="Redondo" />
           <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
          </items>
       </ToolBar>
+      <Group fx:id="localsKernels" layoutX="400.0" layoutY="530.0" visible="false">
+         <children>
+            <Slider fx:id="localH" blockIncrement="1.0" layoutX="120.0" layoutY="-40.0" majorTickUnit="7.0" max="7.0" min="1.0" minorTickCount="6" onMouseReleased="#moveH" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <Slider fx:id="localW" blockIncrement="1.0" layoutY="100.0" majorTickUnit="7.0" max="7.0" min="1.0" minorTickCount="6" onMouseReleased="#moveW" showTickLabels="true" showTickMarks="true" value="1.0" />
+         </children>
+      </Group>
     </children>
 </AnchorPane>
