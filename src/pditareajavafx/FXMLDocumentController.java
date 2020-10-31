@@ -515,8 +515,14 @@ public class FXMLDocumentController implements Initializable {
         int half = (int) robertsSize/2;
                 for(int y=0; y<robertsSize;y++){
                  for(int x=0; x<robertsSize;x++){
+                     if(robertsSize == 2){
                     kernel[x][y] = (x==y) ? (y < half) ? 1 : -1 : 0; 
-                    kernelY[x][y] = ((x+y) == (robertsSize - 1)) ? (y < half) ? 1 : -1 : 0; 
+                    kernelY[x][y] = ((x+y) == (robertsSize - 1)) ? (y < half) ? 1 : -1 : 0;  
+                     }else{
+                     kernel[x][y] = (x!=y) ? (y < half) ? 1 : -1 : 0; 
+                    kernelY[x][y] = ((x+y) != (robertsSize - 1)) ? (y < half) ? 1 : -1 : 0;  
+                     }
+                    
                 }   
                 }
         
