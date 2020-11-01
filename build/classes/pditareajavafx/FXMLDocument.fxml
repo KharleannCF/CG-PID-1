@@ -19,12 +19,14 @@
     <children>
       <ImageView fx:id="imgV" fitHeight="459.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
-      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="366.0" visible="false">
+      <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="423.0" visible="false">
         <items>
             <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
             <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
             <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
             <Button fx:id="blackAndWhiteButton" mnemonicParsing="false" onAction="#blackAndWhiteReal" text="Blanco y negro" />
+            <Button mnemonicParsing="false" onAction="#brightness" text="Brillo" />
+            <Button mnemonicParsing="false" onAction="#brightnessN" text="Oscurecer" />
         </items>
       </ToolBar>
       <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />
@@ -138,7 +140,7 @@
             </MenuButton>
         </items>
       </ToolBar>
-      <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onDragDetected="#blackAndWhiteReal" showTickMarks="true" value="127.0" visible="false" />
+      <Slider fx:id="BWSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#blackAndWhiteSlider" showTickMarks="true" value="127.0" visible="false" />
       <Button fx:id="doneButton" layoutX="20.0" layoutY="589.0" mnemonicParsing="false" onAction="#doneUmbral" text="Listo" visible="false" />
       <Group fx:id="borderKernels" layoutX="400.0" layoutY="665.0" visible="false">
          <children>
@@ -177,5 +179,8 @@
             <RadioButton fx:id="vecindad8" layoutX="60.0" layoutY="72.0" mnemonicParsing="false" onAction="#vecindad8Func" text="a 8" />
          </children>
       </Group>
+      <Slider fx:id="brightSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#brightSlider" showTickMarks="true" snapToTicks="true" value="127.0" visible="false" />
+      <Slider fx:id="brightNSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#brightNeSlider" showTickMarks="true" snapToTicks="true" value="127.0" visible="false" />
+      <Label fx:id="dataLabel" layoutX="76.0" layoutY="593.0" />
     </children>
 </AnchorPane>

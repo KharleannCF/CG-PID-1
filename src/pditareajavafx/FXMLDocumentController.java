@@ -47,7 +47,10 @@ public class FXMLDocumentController implements Initializable {
     private ImageView imgV;
     @FXML
     private Slider BWSlider;
-    
+    @FXML
+    private Slider brightSlider;
+    @FXML
+    private Slider brightNSlider;
     @FXML
     private Slider localW;
     @FXML
@@ -350,6 +353,8 @@ public class FXMLDocumentController implements Initializable {
            borderKernels.setVisible(false);
            globalsButton.setVisible(true);
            geometricButton.setVisible(true);
+           doneButton.setVisible(false);
+           saveButton.setVisible(true);
            localsButton.setVisible(true);
            borderButton.setLayoutX(325);
            borderButton.setText("Bordes");
@@ -390,26 +395,62 @@ public class FXMLDocumentController implements Initializable {
         saveButton.setVisible(false);
         BWSlider.setVisible(true);
         doneButton.setVisible(true);
-        
     }
+    @FXML
+    private void brightness(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = brightSlider.getValue();
+        
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+        saveButton.setVisible(false);
+        brightSlider.setVisible(true);
+        doneButton.setVisible(true);
+    }
+    @FXML
+    private void brightnessN(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = brightNSlider.getValue();
+        
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.negativeBrightness(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+        saveButton.setVisible(false);
+        brightNSlider.setVisible(true);
+        doneButton.setVisible(true);
+    }
+    
     @FXML
     private void doneUmbral(ActionEvent event){
         Image actual = imgV.getImage();
         BufferedImage newImage = SwingFXUtils.fromFXImage(actual, null);
         ourImage.setResult(newImage);
+        if(borders.isVisible() == false){
         doneButton.setVisible(false);
         saveButton.setVisible(true);
         BWSlider.setVisible(false);
-        if (borders.isVisible() == true){
-           borders.setVisible(false);
-           dataButton.setVisible(true);
-           borderKernels.setVisible(false);
-           globalsButton.setVisible(true);
-           geometricButton.setVisible(true);
-           borderButton.setLayoutX(325);
-           borderButton.setText("Bordes");
+        brightSlider.setVisible(false);
+        brightNSlider.setVisible(false);
+        }
        }
-    }
+    
     
     @FXML
     public void blackAndWhiteSlider() throws IOException {
@@ -426,6 +467,41 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("hola");
         //ourImage.setResult();
         Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+    }
+     @FXML
+    public void brightSlider() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = brightSlider.getValue();
+        
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    public void brightNeSlider() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = brightNSlider.getValue();
+        
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.negativeBrightness(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
     @FXML
