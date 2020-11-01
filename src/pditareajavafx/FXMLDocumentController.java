@@ -277,11 +277,12 @@ public class FXMLDocumentController implements Initializable {
        }else{
            geometrics.setVisible(false);
            dataButton.setVisible(true);
-           borderButton.setVisible(true);
            globalsButton.setVisible(true);
+           borderButton.setVisible(true);
            localsButton.setVisible(true);
-           dataButton.setLayoutX(235);
-           geometricButton.setText("Globales");
+           geometricButton.setLayoutX(235);
+           geometricButton.setText("Geometricos");
+           
        }
     }
     
