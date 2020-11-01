@@ -806,13 +806,13 @@ public class FXMLDocumentController implements Initializable {
             
         }
         
-        //ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         
-        BufferedImage image2 = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        //BufferedImage image2 = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         
         
         
-        Image image = SwingFXUtils.toFXImage(image2, null);
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
     
