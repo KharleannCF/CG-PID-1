@@ -157,8 +157,9 @@
          </children>
       </Group>
       <Button fx:id="localsButton" layoutX="385.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocals" text="Locales" />
-      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="200.0" visible="false">
+      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="294.0" visible="false">
          <items>
+            <Button mnemonicParsing="false" onAction="#Media" text="Media" />
             <Button mnemonicParsing="false" onAction="#kernelRedondo" text="Redondo" />
           <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
          </items>
