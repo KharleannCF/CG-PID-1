@@ -111,6 +111,10 @@ public class FXMLDocumentController implements Initializable {
      private RadioButton vectorY;
     @FXML
      private RadioButton vectorMagnitud;
+    @FXML
+     private RadioButton vecindad4;
+    @FXML
+     private RadioButton vecindad8;
     
     
     
@@ -127,6 +131,7 @@ public class FXMLDocumentController implements Initializable {
     int localsSizeX = 1;
     int localsSizeY = 1;
     
+    int vecindad = 4;
     
     
     @FXML
@@ -210,6 +215,20 @@ public class FXMLDocumentController implements Initializable {
     vectorX.setSelected(false);
     vectorY.setSelected(false);
     vectorDir='M';
+    }
+    
+    @FXML
+    private void vecindad4Func(ActionEvent event) throws IOException {
+    vecindad4.setSelected(true);
+    vecindad8.setSelected(false);
+    vecindad = 4;
+    }
+    
+    @FXML
+    private void vecindad8Func(ActionEvent event) throws IOException {
+    vecindad4.setSelected(false);
+    vecindad8.setSelected(true);
+    vecindad = 8;
     }
     
     @FXML
@@ -537,7 +556,7 @@ public class FXMLDocumentController implements Initializable {
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
-     @FXML
+    @FXML
     private void Media(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
@@ -565,6 +584,235 @@ public class FXMLDocumentController implements Initializable {
         
         
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void laPlace(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int kernelSize = localsSizeX > localsSizeY ?  localsSizeX : localsSizeY;
+        if(kernelSize%2 == 0){
+            kernelSize++;
+        }
+        
+        int [][] kernel = new int[kernelSize][kernelSize];
+        
+        if(kernelSize ==1){
+            kernel[0][0] = 1;
+        }else if(kernelSize == 3 && vecindad == 4){
+            kernel[0][0] = 0;
+            kernel[1][0] = 1;
+            kernel[2][0] = 0;
+            
+            kernel[0][1] = 1;
+            kernel[1][1] = -4;
+            kernel[2][1] = 1;
+            
+            kernel[0][2] = 0;
+            kernel[1][2] = 1;
+            kernel[2][2] = 0;   
+        }else if(kernelSize == 3 && vecindad == 8){
+            kernel[0][0] = 1;
+            kernel[1][0] = 1;
+            kernel[2][0] = 1;
+            
+            kernel[0][1] = 1;
+            kernel[1][1] = -8;
+            kernel[2][1] = 1;
+            
+            kernel[0][2] = 1;
+            kernel[1][2] = 1;
+            kernel[2][2] = 1;   
+        }else if(kernelSize == 5 && vecindad == 4){
+            kernel[0][0] = 0;
+            kernel[1][0] = 0;
+            kernel[2][0] = 1;
+            kernel[3][0] = 0;
+            kernel[4][0] = 0;
+            
+            kernel[0][1] = 0;
+            kernel[1][1] = 1;
+            kernel[2][1] = 2;
+            kernel[3][1] = 1;
+            kernel[4][1] = 0;
+            
+            kernel[0][2] = 1;
+            kernel[1][2] = 2;
+            kernel[2][2] = -16;
+            kernel[3][2] = 2;
+            kernel[4][2] = 1;
+            
+            kernel[0][3] = 0;
+            kernel[1][3] = 1;
+            kernel[2][3] = 2;
+            kernel[3][3] = 1;
+            kernel[4][3] = 0;
+            
+            kernel[0][4] = 0;
+            kernel[1][4] = 0;
+            kernel[2][4] = 1;
+            kernel[3][4] = 0;
+            kernel[4][4] = 0;   
+        }else if(kernelSize == 5 && vecindad == 8){
+            kernel[0][0] = 1;
+            kernel[1][0] = 3;
+            kernel[2][0] = 4;
+            kernel[3][0] = 3;
+            kernel[4][0] = 1;
+            
+            kernel[0][1] = 3;
+            kernel[1][1] = 0;
+            kernel[2][1] = -6;
+            kernel[3][1] = 0;
+            kernel[4][1] = 3;
+            
+            kernel[0][2] = 4;
+            kernel[1][2] = -6;
+            kernel[2][2] = -20;
+            kernel[3][2] = -6;
+            kernel[4][2] = 4;
+            
+            kernel[0][3] = 3;
+            kernel[1][3] = 0;
+            kernel[2][3] = -6;
+            kernel[3][3] = 0;
+            kernel[4][3] = 3;
+            
+            kernel[0][4] = 1;
+            kernel[1][4] = 3;
+            kernel[2][4] = 4;
+            kernel[3][4] = 3;
+            kernel[4][4] = 1;   
+        }else if(kernelSize == 7 && vecindad == 4){
+            kernel[0][0] = 0;
+            kernel[1][0] = 0;
+            kernel[2][0] = 1;
+            kernel[3][0] = 1;
+            kernel[4][0] = 1;
+            kernel[5][0] = 0;
+            kernel[6][0] = 0;
+            
+            kernel[0][1] = 0;
+            kernel[1][1] = 1;
+            kernel[2][1] = 3;
+            kernel[3][1] = 3;
+            kernel[4][1] = 3;
+            kernel[5][1] = 1;
+            kernel[6][1] = 0;
+            
+            kernel[0][2] = 1;
+            kernel[1][2] = 3;
+            kernel[2][2] = 0;
+            kernel[3][2] = -7;
+            kernel[4][2] = 0;
+            kernel[5][2] = 3;
+            kernel[6][2] = 1;
+            
+            kernel[0][3] = 1;
+            kernel[1][3] = 3;
+            kernel[2][3] = -7;
+            kernel[3][3] = -24;
+            kernel[4][3] = -7;
+            kernel[5][3] = 3;
+            kernel[6][3] = 1;
+            
+            kernel[0][4] = 1;
+            kernel[1][4] = 3;
+            kernel[2][4] = 0;
+            kernel[3][4] = -7;
+            kernel[4][4] = 0;   
+            kernel[5][4] = 3;
+            kernel[6][4] = 1;
+            
+            kernel[0][5] = 0;
+            kernel[1][5] = 1;
+            kernel[2][5] = 3;
+            kernel[3][5] = 3;
+            kernel[4][5] = 3;   
+            kernel[5][5] = 1;
+            kernel[6][5] = 0;
+            
+            kernel[0][6] = 0;
+            kernel[1][6] = 0;
+            kernel[2][6] = 1;
+            kernel[3][6] = 1;
+            kernel[4][6] = 1;   
+            kernel[5][6] = 0;
+            kernel[6][6] = 0;
+            
+        }else if(kernelSize == 7 && vecindad == 8){
+            kernel[0][0] = 2;
+            kernel[1][0] = 3;
+            kernel[2][0] = 4;
+            kernel[3][0] = 6;
+            kernel[4][0] = 4;
+            kernel[5][0] = 3;
+            kernel[6][0] = 2;
+            
+            kernel[0][1] = 3;
+            kernel[1][1] = 5;
+            kernel[2][1] = 4;
+            kernel[3][1] = 3;
+            kernel[4][1] = 4;
+            kernel[5][1] = 5;
+            kernel[6][1] = 3;
+            
+            kernel[0][2] = 4;
+            kernel[1][2] = 4;
+            kernel[2][2] = -9;
+            kernel[3][2] = -20;
+            kernel[4][2] = -9;
+            kernel[5][2] = 4;
+            kernel[6][2] = 4;
+            
+            kernel[0][3] = 3;
+            kernel[1][3] = 6;
+            kernel[2][3] = -20;
+            kernel[3][3] = -36;
+            kernel[4][3] = -20;
+            kernel[5][3] = 3;
+            kernel[6][3] = 6;
+            
+            kernel[0][4] = 4;
+            kernel[1][4] = 4;
+            kernel[2][4] = -9;
+            kernel[3][4] = -20;
+            kernel[4][4] = -9;   
+            kernel[5][4] = 4;
+            kernel[6][4] = 4;
+            
+            kernel[0][5] = 3;
+            kernel[1][5] = 5;
+            kernel[2][5] = 4;
+            kernel[3][5] = 3;
+            kernel[4][5] = 4;   
+            kernel[5][5] = 5;
+            kernel[6][5] = 3;
+            
+            kernel[0][6] = 2;
+            kernel[1][6] = 3;
+            kernel[2][6] = 4;
+            kernel[3][6] = 6;
+            kernel[4][6] = 4;   
+            kernel[5][6] = 3;
+            kernel[6][6] = 2;
+            
+        }
+        
+        //ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        
+        BufferedImage image2 = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
+        
+        
+        
+        Image image = SwingFXUtils.toFXImage(image2, null);
         imgV.setImage(image);
     }
     

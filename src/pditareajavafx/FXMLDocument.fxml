@@ -163,14 +163,18 @@
             <Button mnemonicParsing="false" onAction="#kernelRedondo" text="Redondo" />
           <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
             <Button mnemonicParsing="false" onAction="#Mediana" text="Mediana" />
+            <Button mnemonicParsing="false" onAction="#laPlace" text="Laplaciano" />
             <Button mnemonicParsing="false" onAction="#Maximo" text="Maximo" />
             <Button mnemonicParsing="false" onAction="#minimo" text="Minimo" />
          </items>
       </ToolBar>
-      <Group fx:id="localsKernels" layoutX="400.0" layoutY="530.0" visible="false">
+      <Group fx:id="localsKernels" layoutX="400.0" layoutY="540.0" visible="false">
          <children>
             <Slider fx:id="localH" blockIncrement="1.0" layoutX="120.0" layoutY="-40.0" majorTickUnit="7.0" max="7.0" min="1.0" minorTickCount="6" onMouseReleased="#moveH" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
             <Slider fx:id="localW" blockIncrement="1.0" layoutY="100.0" majorTickUnit="7.0" max="7.0" min="1.0" minorTickCount="6" onMouseReleased="#moveW" showTickLabels="true" showTickMarks="true" value="1.0" />
+            <Label layoutX="11.0" layoutY="49.0" text="Vecindad" />
+            <RadioButton fx:id="vecindad4" layoutX="11.0" layoutY="72.0" mnemonicParsing="false" onAction="#vecindad4Func" selected="true" text="a 4" />
+            <RadioButton fx:id="vecindad8" layoutX="60.0" layoutY="72.0" mnemonicParsing="false" onAction="#vecindad8Func" text="a 8" />
          </children>
       </Group>
     </children>
