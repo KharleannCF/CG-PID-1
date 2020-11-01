@@ -157,11 +157,14 @@
          </children>
       </Group>
       <Button fx:id="localsButton" layoutX="385.0" layoutY="553.0" mnemonicParsing="false" onAction="#showLocals" text="Locales" />
-      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="294.0" visible="false">
+      <ToolBar fx:id="locals" layoutX="149.0" layoutY="545.0" prefHeight="40.0" prefWidth="366.0" visible="false">
          <items>
             <Button mnemonicParsing="false" onAction="#Media" text="Media" />
             <Button mnemonicParsing="false" onAction="#kernelRedondo" text="Redondo" />
           <Button mnemonicParsing="false" onAction="#Gaussiano" text="Gaussiano" />
+            <Button mnemonicParsing="false" onAction="#Mediana" text="Mediana" />
+            <Button mnemonicParsing="false" onAction="#Maximo" text="Maximo" />
+            <Button mnemonicParsing="false" onAction="#minimo" text="Minimo" />
          </items>
       </ToolBar>
       <Group fx:id="localsKernels" layoutX="400.0" layoutY="530.0" visible="false">

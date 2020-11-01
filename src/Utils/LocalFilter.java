@@ -8,6 +8,8 @@ package Utils;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -84,6 +86,136 @@ public class LocalFilter {
 
         return result;
     }
+     public BufferedImage mediana(BufferedImage original, int[][] kernel){
+         int totalX = kernel.length;
+         int totalY = kernel[0].length;
+         int halfX = kernel.length / 2;
+         int halfY = kernel[0].length / 2;
+         
+        BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = result.createGraphics();
+        
+        for (int y = 0; y < original.getHeight(); y++) {
+         for (int x = 0; x < original.getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = 0;
+            int red = 0;
+            int green = 0;
+            int blue = 0;
+            ArrayList colors = new ArrayList();
+            for (int actY = 0; actY < totalY; actY++){
+                int moveY = y;
+                moveY = moveY - (halfY - actY);
+                for (int actX = 0; actX < totalX; actX++){
+                  int moveX = x;
+                  moveX = moveX - (halfX - actX);
+                  try{
+                      pixel = original.getRGB(moveX, moveY);
+                  } catch(Exception exp){
+                      pixel = original.getRGB(x,y);
+                  }
+                  colors.add(pixel);
+                } 
+            }
+            Collections.sort(colors);
+            int middle = colors.size()/2;
+            int colorNumber = (int) colors.get(middle);
+            Color color = new Color (colorNumber);
+            g2.setColor(color);
+            g2.fillRect(x, y, x+1, y+1);
+            }
+        }
+
+        return result;
+    }
+     
+     public BufferedImage maximo(BufferedImage original, int[][] kernel){
+         int totalX = kernel.length;
+         int totalY = kernel[0].length;
+         int halfX = kernel.length / 2;
+         int halfY = kernel[0].length / 2;
+         
+        BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = result.createGraphics();
+        
+        for (int y = 0; y < original.getHeight(); y++) {
+         for (int x = 0; x < original.getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = 0;
+            int red = 0;
+            int green = 0;
+            int blue = 0;
+            ArrayList colors = new ArrayList();
+            for (int actY = 0; actY < totalY; actY++){
+                int moveY = y;
+                moveY = moveY - (halfY - actY);
+                for (int actX = 0; actX < totalX; actX++){
+                  int moveX = x;
+                  moveX = moveX - (halfX - actX);
+                  try{
+                      pixel = original.getRGB(moveX, moveY);
+                  } catch(Exception exp){
+                      pixel = original.getRGB(x,y);
+                  }
+                  colors.add(pixel);
+                } 
+            }
+            Collections.sort(colors);
+            int middle = colors.size()-1;
+            int colorNumber = (int) colors.get(middle);
+            Color color = new Color (colorNumber);
+            g2.setColor(color);
+            g2.fillRect(x, y, x+1, y+1);
+            }
+        }
+
+        return result;
+    }
+     public BufferedImage minimo(BufferedImage original, int[][] kernel){
+         int totalX = kernel.length;
+         int totalY = kernel[0].length;
+         int halfX = kernel.length / 2;
+         int halfY = kernel[0].length / 2;
+         
+        BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = result.createGraphics();
+        
+        for (int y = 0; y < original.getHeight(); y++) {
+         for (int x = 0; x < original.getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = 0;
+            int red = 0;
+            int green = 0;
+            int blue = 0;
+            ArrayList colors = new ArrayList();
+            for (int actY = 0; actY < totalY; actY++){
+                int moveY = y;
+                moveY = moveY - (halfY - actY);
+                for (int actX = 0; actX < totalX; actX++){
+                  int moveX = x;
+                  moveX = moveX - (halfX - actX);
+                  try{
+                      pixel = original.getRGB(moveX, moveY);
+                  } catch(Exception exp){
+                      pixel = original.getRGB(x,y);
+                  }
+                  colors.add(pixel);
+                } 
+            }
+            Collections.sort(colors);
+            int middle = 0;
+            int colorNumber = (int) colors.get(middle);
+            Color color = new Color (colorNumber);
+            g2.setColor(color);
+            g2.fillRect(x, y, x+1, y+1);
+            }
+        }
+
+        return result;
+    }
+     
+     
+     
       public BufferedImage gradientCalc(BufferedImage originalX, BufferedImage originalY){
          int height = originalX.getHeight();
          int width = originalX.getWidth();

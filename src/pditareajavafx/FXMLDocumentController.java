@@ -567,6 +567,68 @@ public class FXMLDocumentController implements Initializable {
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
+    
+     @FXML
+    private void Mediana(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        int [][] kernel = new int[localsSizeX][localsSizeY];
+        
+        ourImage.setResult(localFilter.mediana(ourImage.getOriginal(), kernel));
+        
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void Maximo(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        
+        int [][] kernel = new int[localsSizeX][localsSizeY];
+        
+        ourImage.setResult(localFilter.maximo(ourImage.getOriginal(), kernel));
+        
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void minimo(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        
+        int [][] kernel = new int[localsSizeX][localsSizeY];
+        
+        ourImage.setResult(localFilter.minimo(ourImage.getOriginal(), kernel));
+        
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
+    
     @FXML
     private void Sobel(ActionEvent event) throws IOException {
         try {
