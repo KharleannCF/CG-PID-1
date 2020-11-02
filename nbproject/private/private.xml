@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Kharleann/Documents/NetBeansProjects/PDITareaJavaFX/src/Utils/LocalFilter.java</file>
-            <file>file:/C:/Users/Kharleann/Documents/NetBeansProjects/PDITareaJavaFX/src/Utils/GlobalFilter.java</file>
-            <file>file:/C:/Users/Kharleann/Documents/NetBeansProjects/PDITareaJavaFX/src/Utils/Histogram.java</file>
-            <file>file:/C:/Users/Kharleann/Documents/NetBeansProjects/PDITareaJavaFX/src/pditareajavafx/FXMLDocumentController.java</file>
+            <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/Utils/GeometricFilter.java</file>
+            <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/pditareajavafx/FXMLDocumentController.java</file>
+            <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/Utils/ZoomFilters.java</file>
         </group>
     </open-files>
 </project-private>

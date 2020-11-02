@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +20,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
       <ImageView fx:id="imgV" fitHeight="459.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
@@ -182,6 +187,15 @@
       </Group>
       <Slider fx:id="brightSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#brightSlider" showTickMarks="true" snapToTicks="true" value="127.0" visible="false" />
       <Slider fx:id="brightNSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#brightNeSlider" showTickMarks="true" snapToTicks="true" value="127.0" visible="false" />
+      <Button fx:id="zoomButton" layoutX="164.0" layoutY="589.0" mnemonicParsing="false" onAction="#showZoom" text="Zoom" />
       <Label fx:id="dataLabel" layoutX="76.0" layoutY="593.0" />
+      <ToolBar fx:id="zoomToolBar" layoutX="77.0" layoutY="545.0" prefHeight="40.0" prefWidth="316.0" visible="false">
+        <items>
+          <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In x2" />
+            <Button fx:id="zoomAlejar" mnemonicParsing="false" text="Zoom out x2" />
+            <TextField fx:id="zoomX" prefHeight="25.0" prefWidth="30.0" promptText="x" />
+            <TextField fx:id="zoomY" prefHeight="25.0" prefWidth="31.0" promptText="y" />
+        </items>
+      </ToolBar>
     </children>
 </AnchorPane>
