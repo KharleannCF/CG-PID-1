@@ -12,6 +12,7 @@ import Utils.GlobalFilter;
 import Utils.Histogram;
 import Utils.ImageCustom;
 import Utils.LocalFilter;
+import Utils.ZoomFilters;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -56,6 +58,11 @@ public class FXMLDocumentController implements Initializable {
     private Slider localW;
     @FXML
     private Slider localH;
+    
+    @FXML
+    private TextField zoomX;
+    @FXML
+    private TextField zoomY;
     
     @FXML
     private Button cargar;
@@ -134,6 +141,7 @@ public class FXMLDocumentController implements Initializable {
     ImageCustom ourImage = new ImageCustom();
     GlobalFilter globalFilter = new GlobalFilter();
     LocalFilter localFilter = new LocalFilter();
+    ZoomFilters zoomFilter = new ZoomFilters();
     GeometricFilter geometricFilter = new GeometricFilter();
     Histogram histogramFilter = new Histogram();
     int borderKernelSize = 3;
@@ -152,6 +160,26 @@ public class FXMLDocumentController implements Initializable {
     matrix5.setSelected(false);
     matrix7.setSelected(false);
     borderKernelSize = 3;
+    }
+    
+    @FXML
+    private void zoomIn(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        int x = Integer.parseInt(zoomX.getText());
+        int y = Integer.parseInt(zoomY.getText());
+        ourImage.setResult(zoomFilter.zoomVecino(ourImage.getOriginal(), x, y));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        
     }
     
     @FXML
