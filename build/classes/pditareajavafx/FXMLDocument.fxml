@@ -26,6 +26,7 @@
             <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
             <Button fx:id="blackAndWhiteButton" mnemonicParsing="false" onAction="#blackAndWhiteReal" text="Blanco y negro" />
             <Button mnemonicParsing="false" onAction="#brightness" text="Brillo" />
+            <Button mnemonicParsing="false" onAction="#contrast" text="Contraste" />
             <Button mnemonicParsing="false" onAction="#brightnessN" text="Oscurecer" />
         </items>
       </ToolBar>

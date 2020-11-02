@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -436,6 +437,42 @@ public class FXMLDocumentController implements Initializable {
         brightNSlider.setVisible(true);
         doneButton.setVisible(true);
     }
+    
+    @FXML
+    private void contrast(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+         ArrayList colors = new ArrayList();
+         for (int y = 0; y < ourImage.getOriginal().getHeight(); y++) {
+         for (int x = 0; x < ourImage.getOriginal().getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = ourImage.getOriginal().getRGB(x,y);
+            if(!(colors.contains(pixel))){
+                colors.add(pixel);
+            }
+            }
+        }
+         
+         Collections.sort(colors);
+        int min = (int) Math.ceil((5 * colors.size())/100);
+        int max = (int) Math.ceil((95 * colors.size())/100);
+        min = (int) colors.get(min);
+        max = (int) colors.get(max);
+        
+        //ourImage.setResult();
+        ourImage.setResult(globalFilter.contrast(ourImage.getOriginal(), min, max));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        
+    }
+    
     
     @FXML
     private void doneUmbral(ActionEvent event){
@@ -1197,7 +1234,7 @@ public class FXMLDocumentController implements Initializable {
         }
         dataLabel.setVisible(true);
         
-                ArrayList colors = new ArrayList();
+         ArrayList colors = new ArrayList();
          for (int y = 0; y < ourImage.getOriginal().getHeight(); y++) {
          for (int x = 0; x < ourImage.getOriginal().getWidth(); x++) {
             //Retrieving contents of a pixel

@@ -59,6 +59,7 @@ public class GlobalFilter {
         }
         return result;
     }
+    
     public BufferedImage negativeBrightness(BufferedImage original, double sum){
         BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g2 = result.createGraphics();
@@ -77,6 +78,41 @@ public class GlobalFilter {
             red = red < 0 ? 0 : red;
             green = green < 0 ? 0 : green;
             blue = blue < 0 ? 0 : blue;
+            
+            g2.setColor(new Color(red, green, blue));
+            g2.fillRect(x, y, x+1, y+1);
+            }
+        }
+        return result;
+    }
+    
+    public BufferedImage contrast(BufferedImage original, int min, int max){
+        BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = result.createGraphics();
+        
+        Color minColor = new Color(min);
+        Color maxColor = new Color(max);
+        System.out.println(minColor.getGreen());
+        System.out.println(maxColor.getGreen());
+        System.out.println(minColor.getBlue());
+        System.out.println(maxColor.getBlue());
+        for (int y = 0; y < original.getHeight(); y++) {
+         for (int x = 0; x < original.getWidth(); x++) {
+            //Retrieving contents of a pixel
+            int pixel = original.getRGB(x,y);
+            //Creating a Color object from pixel value
+            Color color = new Color(pixel, true);
+            
+           int red = (int) (((color.getRed() - minColor.getRed())*255)/(maxColor.getRed() - minColor.getRed()) );
+            int green = (int) (((color.getGreen() - minColor.getGreen())*255)/(maxColor.getGreen() - minColor.getGreen()) );
+            int blue = (int) (((color.getBlue() - minColor.getBlue())*255)/(maxColor.getBlue() - minColor.getBlue()) );;
+            
+            red = red < 0 ? 0 : red;
+            green = green < 0 ? 0 : green;
+            blue = blue < 0 ? 0 : blue;
+            red = red > 255 ? 255 : red;
+            green = green > 255 ? 255 : green;
+            blue = blue > 255 ? 255 : blue;
             
             g2.setColor(new Color(red, green, blue));
             g2.fillRect(x, y, x+1, y+1);
