@@ -60,6 +60,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cargar;
     @FXML
+    private Button zoomButton;
+    @FXML
+    private Button zoomAcercar;
+    @FXML
+    private Button zoomAlejar;
+    @FXML
     private Button globalsButton;
     @FXML
     private Button geometricButton;
@@ -75,6 +81,8 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar globals;
     @FXML
     private ToolBar borders;
+    @FXML
+    private ToolBar zoomToolBar;
     @FXML
     private Button borderButton;
     @FXML
@@ -286,6 +294,26 @@ public class FXMLDocumentController implements Initializable {
            localsButton.setVisible(true);
            geometricButton.setLayoutX(235);
            geometricButton.setText("Geometricos");
+           
+       }
+    }
+    
+    @FXML
+    private void showZoom(ActionEvent event) throws IOException {
+       if (zoomToolBar.isVisible() == false){
+           zoomToolBar.setVisible(true);
+           dataButton.setVisible(false);    
+           borderButton.setVisible(false);
+           globalsButton.setVisible(false);
+           localsButton.setVisible(false);
+           zoomButton.setText("Back");
+       }else{
+           zoomToolBar.setVisible(false);
+           dataButton.setVisible(true);
+           globalsButton.setVisible(true);
+           borderButton.setVisible(true);
+           localsButton.setVisible(true);
+           zoomButton.setText("zoom");
            
        }
     }
