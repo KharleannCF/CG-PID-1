@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -22,7 +23,10 @@
 
 <AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-      <ImageView fx:id="imgV" fitHeight="459.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" smooth="false">
+         <viewport>
+            <Rectangle2D height="250.0" width="250.0" />
+         </viewport></ImageView>
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
       <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="423.0" visible="false">
         <items>
@@ -192,10 +196,12 @@
       <ToolBar fx:id="zoomToolBar" layoutX="77.0" layoutY="545.0" prefHeight="40.0" prefWidth="316.0" visible="false">
         <items>
           <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In x2" />
-            <Button fx:id="zoomAlejar" mnemonicParsing="false" text="Zoom out x2" />
+            <Button fx:id="zoomAlejar" mnemonicParsing="false" onAction="#zoomOut" text="Zoom out x2" />
             <TextField fx:id="zoomX" prefHeight="25.0" prefWidth="30.0" promptText="x" />
             <TextField fx:id="zoomY" prefHeight="25.0" prefWidth="31.0" promptText="y" />
         </items>
       </ToolBar>
+      <Slider fx:id="viewPortW" disable="true" layoutX="38.0" layoutY="523.0" majorTickUnit="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="494.0" visible="false" />
+      <Slider fx:id="viewPortH" disable="true" layoutX="13.0" layoutY="14.0" majorTickUnit="2.0" minorTickCount="1" orientation="VERTICAL" prefHeight="506.0" prefWidth="14.0" visible="false" />
     </children>
 </AnchorPane>
