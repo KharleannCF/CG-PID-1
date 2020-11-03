@@ -173,10 +173,11 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        
-        int x = Integer.parseInt(zoomX.getText());
-        int y = Integer.parseInt(zoomY.getText());
+        System.out.println("ENTRE AL PUTO EVENTO");
+        int x = 1;//Integer.parseInt(zoomX.getText());
+        int y = 1; //Integer.parseInt(zoomY.getText());
         ourImage.setResult(zoomFilter.zoomVecino(ourImage.getOriginal(), x, y));
+        System.out.println("SALI DE LA PUTA FUNCION");
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
         
