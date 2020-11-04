@@ -193,12 +193,14 @@
       <Slider fx:id="brightNSlider" blockIncrement="1.0" layoutX="90.0" layoutY="595.0" max="255.0" onMouseReleased="#brightNeSlider" showTickMarks="true" snapToTicks="true" value="127.0" visible="false" />
       <Button fx:id="zoomButton" layoutX="164.0" layoutY="589.0" mnemonicParsing="false" onAction="#showZoom" text="Zoom" />
       <Label fx:id="dataLabel" layoutX="76.0" layoutY="593.0" />
-      <ToolBar fx:id="zoomToolBar" layoutX="77.0" layoutY="545.0" prefHeight="40.0" prefWidth="316.0" visible="false">
+      <ToolBar fx:id="zoomToolBar" layoutX="14.0" layoutY="624.0" prefHeight="40.0" prefWidth="553.0" visible="false">
         <items>
-          <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In x2" />
-            <Button fx:id="zoomAlejar" mnemonicParsing="false" onAction="#zoomOut" text="Zoom out x2" />
+          <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomInVecino" text="ZoomIn Vecino x2" />
+            <Button fx:id="zoomAlejar" mnemonicParsing="false" onAction="#zoomOutVecino" text="ZoomOut Vecino x2" />
             <TextField fx:id="zoomX" prefHeight="25.0" prefWidth="30.0" promptText="x" />
             <TextField fx:id="zoomY" prefHeight="25.0" prefWidth="31.0" promptText="y" />
+            <Button fx:id="ZoomInBilineal" mnemonicParsing="false" onAction="#zoomInBilinealAction" text="ZoomIn Bilineal" />
+            <Button fx:id="ZoomOutBilineal" mnemonicParsing="false" text="ZoomOut Bilineal" />
         </items>
       </ToolBar>
       <Slider fx:id="viewPortW" disable="true" layoutX="38.0" layoutY="523.0" majorTickUnit="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="494.0" visible="false" />

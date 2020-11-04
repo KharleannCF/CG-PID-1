@@ -70,6 +70,10 @@ public class FXMLDocumentController implements Initializable {
     private TextField zoomY;
     
     @FXML
+    private Button ZoomInBilineal;
+    @FXML
+    private Button ZoomOutBilineal;
+    @FXML
     private Button cargar;
     @FXML
     private Button zoomButton;
@@ -170,7 +174,40 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void zoomIn(ActionEvent event) throws IOException {
+    private void zoomInBilinealAction(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        System.out.println("ENTRE AL PUTO EVENTO");
+        int x = 1;//Integer.parseInt(zoomX.getText());
+        int y = 1; //Integer.parseInt(zoomY.getText());
+        ourImage.setResult(zoomFilter.zoomInBilineal(ourImage.getOriginal(), x, y));
+        System.out.println("SALI DE LA PUTA FUNCION");
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        //imgV.setFitWidth(image.getWidth());
+        //imgV.setFitHeight(image.getHeight());
+        imgV.setImage(image);
+        viewPortWmin = 0;
+        viewPortWmax = 250;
+        viewPortHmin = 0;
+        viewPortHmax = 250;
+        viewPortH.setMin(250);
+        viewPortH.setMax(ourImage.getHeight() - 250);
+        viewPortW.setMin(250);
+        viewPortW.setMax(ourImage.getWidth() - 250);
+        Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);
+        imgV.setViewport(viewportRect);
+                
+    }
+    
+    @FXML
+    private void zoomInVecino(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
                 ourImage.setOriginal(ourImage.getResult());
@@ -203,7 +240,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void zoomOut(ActionEvent event) throws IOException {
+    private void zoomOutVecino(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
                 ourImage.setOriginal(ourImage.getResult());
