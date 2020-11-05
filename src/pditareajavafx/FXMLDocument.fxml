@@ -23,10 +23,13 @@
 
 <AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
-      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" smooth="false">
+      <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" smooth="false">
          <viewport>
-            <Rectangle2D height="250.0" width="250.0" />
-         </viewport></ImageView>
+            <Rectangle2D />
+         </viewport>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></ImageView>
         <Button fx:id="cargar" layoutX="14.0" layoutY="552.0" onAction="#loadImage" text="Cargar" />
       <ToolBar fx:id="globals" layoutX="143.0" layoutY="545.0" prefHeight="40.0" prefWidth="423.0" visible="false">
         <items>

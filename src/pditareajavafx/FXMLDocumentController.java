@@ -187,16 +187,17 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        System.out.println("ENTRE AL PUTO EVENTO");
+        //System.out.println("ENTRE AL PUTO EVENTO");
         int x = 1;//Integer.parseInt(zoomX.getText());
         int y = 1; //Integer.parseInt(zoomY.getText());
         ourImage.setResult(zoomFilter.zoomInBilineal(ourImage.getOriginal(), x, y));
-        System.out.println("SALI DE LA PUTA FUNCION");
-        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        Image image = SwingFXUtils.toFXImage(zoomFilter.zoomVecino(ourImage.getResult(), x, y), null);
+        imgV.setImage(image);
+        
+        //System.out.println("SALI DE LA PUTA FUNCION");
         //imgV.setFitWidth(image.getWidth());
         //imgV.setFitHeight(image.getHeight());
-        imgV.setImage(image);
-        viewPortWmin = 0;
+        /*viewPortWmin = 0;
         viewPortWmax = 250;
         viewPortHmin = 0;
         viewPortHmax = 250;
@@ -205,7 +206,7 @@ public class FXMLDocumentController implements Initializable {
         viewPortW.setMin(250);
         viewPortW.setMax(ourImage.getWidth() - 250);
         Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);
-        imgV.setViewport(viewportRect);
+        imgV.setViewport(viewportRect);*/
                 
     }
     
@@ -220,16 +221,39 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        System.out.println("ENTRE AL PUTO EVENTO");
-        int x = 1;//Integer.parseInt(zoomX.getText());
-        int y = 1; //Integer.parseInt(zoomY.getText());
-        ourImage.setResult(zoomFilter.zoomVecino(ourImage.getOriginal(), x, y));
-        System.out.println("SALI DE LA PUTA FUNCION");
-        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        //System.out.println("ENTRE AL PUTO EVENTO");
+        int m = 1;//Integer.parseInt(zoomX.getText());
+        int n = 1; //Integer.parseInt(zoomY.getText());
+        ourImage.setResult(zoomFilter.zoomVecino(ourImage.getOriginal(), m, n));
+        //System.out.println("SALI DE LA PUTA FUNCION");
+        
+        BufferedImage preImage = ourImage.getResult();
+        Graphics g2 = preImage.createGraphics();
+        for (int y = 0; y < preImage.getHeight(); y++) {
+                for (int x = 0; x < preImage.getWidth(); x++) {
+                        try{
+                        Color color;
+                        int pixel = preImage.getRGB(y,x);
+                        System.out.println(pixel);
+                        int  red = (pixel & 0x00ff0000) >> 16;  
+                        int  green = (pixel & 0x0000ff00) >> 8;
+                        int  blue = pixel & 0x000000ff;
+                        color = new Color(red,green,blue);
+                        g2.setColor(color);
+                        g2.fillRect(y, x, y+1, x+1);
+                        }catch(Exception exp){
+                            Color color = new Color(0,0,0);
+                            g2.setColor(color);
+                            g2.fillRect(y,x,y+1,x+1);
+                        }
+                    }
+            }
+        Image image = SwingFXUtils.toFXImage(preImage, null);
+        //Image image = SwingFXUtils.toFXImage(, null);
         //imgV.setFitWidth(image.getWidth());
         //imgV.setFitHeight(image.getHeight());
         imgV.setImage(image);
-        viewPortWmin = 0;
+        /*viewPortWmin = 0;
         viewPortWmax = 250;
         viewPortHmin = 0;
         viewPortHmax = 250;
@@ -238,7 +262,7 @@ public class FXMLDocumentController implements Initializable {
         viewPortW.setMin(250);
         viewPortW.setMax(ourImage.getWidth() - 250);
         Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);
-        imgV.setViewport(viewportRect);
+        imgV.setViewport(viewportRect);*/
                 
     }
     
@@ -262,7 +286,7 @@ public class FXMLDocumentController implements Initializable {
         //imgV.setFitWidth(image.getWidth());
         //imgV.setFitHeight(image.getHeight());
         imgV.setImage(image);
-        viewPortWmin = 0;
+        /*viewPortWmin = 0;
         viewPortWmax = 250;
         viewPortHmin = 0;
         viewPortHmax = 250;
@@ -270,8 +294,8 @@ public class FXMLDocumentController implements Initializable {
         viewPortH.setMax(ourImage.getHeight() - 250);
         viewPortW.setMin(250);
         viewPortW.setMax(ourImage.getWidth() - 250);
-        Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);
-        imgV.setViewport(viewportRect);
+        Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);*/
+        //imgV.setViewport(viewportRect);
                 
     }
     
@@ -280,7 +304,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println((int) viewPortW.getValue());
         System.out.println("Poggers");
         Rectangle2D viewportRect = new Rectangle2D(viewPortW.getValue(), viewPortHmin, viewPortW.getValue()+250, viewPortHmax);
-        imgV.setViewport(viewportRect);
+        //.setViewport(viewportRect);
     }
     
     @FXML
@@ -430,7 +454,7 @@ public class FXMLDocumentController implements Initializable {
         viewPortHmin = 0;
         viewPortHmax = 250;
         Rectangle2D viewportRect = new Rectangle2D(viewPortWmin, viewPortHmin, viewPortWmax, viewPortHmax);
-        imgV.setViewport(viewportRect);
+        //imgV.setViewport(viewportRect);
         imgV.setImage(image);
         viewPortH.setMin(250);
         viewPortH.setMax(ourImage.getHeight() - 250);
