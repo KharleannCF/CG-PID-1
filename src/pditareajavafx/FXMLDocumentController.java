@@ -13,6 +13,8 @@ import Utils.Histogram;
 import Utils.ImageCustom;
 import Utils.LocalFilter;
 import Utils.ZoomFilters;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
@@ -368,12 +371,51 @@ public class FXMLDocumentController implements Initializable {
     vecindad8.setSelected(true);
     vecindad = 8;
     }
-    
     @FXML
     private void loadImage(ActionEvent event) throws IOException {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int returnValue = jfc.showOpenDialog(null);
         File selectedFile = jfc.getSelectedFile();
+        String name = selectedFile.getName();
+        if(name.contains(".pbm" )){
+            Scanner myReader = new Scanner(selectedFile);
+            String pixelSizeString = myReader.nextLine();
+            String data = myReader.nextLine();
+            String [] dataSize = data.split(" ");
+            ourImage.setWidth(Integer.parseInt(dataSize[0]));
+            ourImage.setHeight(Integer.parseInt(dataSize[1]));
+            if(!"P1".equals(pixelSizeString)){
+                data = myReader.nextLine();
+                int maxColor = Integer.parseInt(data);
+            }
+             BufferedImage preImage = new BufferedImage(ourImage.getWidth(), ourImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+             Graphics g2 = preImage.createGraphics();
+            while (myReader.hasNextLine()) {
+            String line = myReader.nextLine();
+            String [] arrayData = line.split(" ");
+             for (int y = 0; y < preImage.getHeight(); y++) {
+                for (int x = 0; x < preImage.getWidth(); x++) {
+                    if("P1".equals(pixelSizeString)){
+                        Color color;
+                        if ("1".equals(arrayData[x])){
+                            color = new Color(0,0,0);
+                            System.out.println(arrayData[x]);
+                        }else{
+                            
+                            color = new Color(255,255,255);
+                        }
+                        g2.setColor(color);
+                        g2.fillRect(x, y, x+1, y+1);
+                    }
+            }
+         }
+      }
+            Image image = SwingFXUtils.toFXImage(preImage, null);
+            ourImage.setOriginal(preImage);
+            ourImage.setResult(preImage);
+            imgV.setImage(image);
+            
+        }else{
         BufferedImage preImage = ImageIO.read(selectedFile);
         ourImage.setOriginal(preImage);
         ourImage.setWidth(ourImage.getOriginal().getWidth());
@@ -394,7 +436,9 @@ public class FXMLDocumentController implements Initializable {
         viewPortH.setMax(ourImage.getHeight() - 250);
         viewPortW.setMin(250);
         viewPortW.setMax(ourImage.getWidth() - 250);
+        }
     }
+   
     @FXML
     private void showGlobals(ActionEvent event) throws IOException {
        if (globals.isVisible() == false){
