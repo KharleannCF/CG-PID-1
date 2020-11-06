@@ -408,31 +408,61 @@ public class FXMLDocumentController implements Initializable {
             String [] dataSize = data.split(" ");
             ourImage.setWidth(Integer.parseInt(dataSize[0]));
             ourImage.setHeight(Integer.parseInt(dataSize[1]));
+            int maxColor = 0;
             if(!"P1".equals(pixelSizeString)){
                 data = myReader.nextLine();
-                int maxColor = Integer.parseInt(data);
+                maxColor = Integer.parseInt(data);
             }
              BufferedImage preImage = new BufferedImage(ourImage.getWidth(), ourImage.getHeight(), BufferedImage.TYPE_INT_RGB);
              Graphics g2 = preImage.createGraphics();
+            int y = 0;
+            int poX =0;
             while (myReader.hasNextLine()) {
             String line = myReader.nextLine();
+            line = "P2".equals(pixelSizeString) ? line.replaceAll("  ", " ") : line;
+            if( "P3".equals(pixelSizeString)){
+                line = line.replaceAll("  ", "");
+                line = line.replaceAll("  ", " ");
+                
+                line = line.replaceAll("  ", " ");
+            }
             String [] arrayData = line.split(" ");
-             for (int y = 0; y < preImage.getHeight(); y++) {
+            if(!"P3".equals(pixelSizeString)){
                 for (int x = 0; x < preImage.getWidth(); x++) {
+                    
                     if("P1".equals(pixelSizeString)){
-                        Color color;
+                        Color color = null;
                         if ("1".equals(arrayData[x])){
                             color = new Color(0,0,0);
-                            System.out.println(arrayData[x]);
-                        }else{
-                            
+                        }else{    
                             color = new Color(255,255,255);
                         }
                         g2.setColor(color);
                         g2.fillRect(x, y, x+1, y+1);
+                    }else if("P2".equals(pixelSizeString)){
+                        Color color = null;
+                        int actualColor = Integer.parseInt(arrayData[x]);
+                        actualColor = actualColor * 255 / maxColor;
+                        color = new Color(actualColor, actualColor, actualColor);
+                        g2.setColor(color);
+                        g2.fillRect(x, y, x+1, y+1);
+                        }
                     }
+            }else{
+                int red = Integer.parseInt(arrayData[0]);
+                int green = Integer.parseInt(arrayData[1]);
+                int blue = Integer.parseInt(arrayData[2]);
+                red = red * 255 / maxColor;
+                green = green * 255 / maxColor;
+                blue = blue * 255 / maxColor;
+                int x = poX % preImage.getWidth();
+                Color color = new Color(red,green,blue);
+                g2.setColor(color);
+                g2.fillRect(x, y, x+1, y+1);
+                y = x+1 == preImage.getWidth() ? y: y-1;
             }
-         }
+            y++;
+            poX++;
       }
             Image image = SwingFXUtils.toFXImage(preImage, null);
             ourImage.setOriginal(preImage);
