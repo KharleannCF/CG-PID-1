@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="747.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="772.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pditareajavafx.FXMLDocumentController">
     <children>
       <ImageView fx:id="imgV" fitHeight="500.0" fitWidth="500.0" layoutX="42.0" layoutY="14.0" onDragDone="#blackAndWhiteReal" pickOnBounds="true" preserveRatio="true" smooth="false">
          <viewport>
@@ -35,7 +35,6 @@
         <items>
             <Button fx:id="negative" mnemonicParsing="false" onAction="#negative" text="Negativo" />
             <Button fx:id="grayScale" mnemonicParsing="false" onAction="#blackAndWhite" text="GrayScale" />
-            <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
             <Button fx:id="blackAndWhiteButton" mnemonicParsing="false" onAction="#blackAndWhiteReal" text="Blanco y negro" />
             <Button mnemonicParsing="false" onAction="#brightness" text="Brillo" />
             <Button mnemonicParsing="false" onAction="#contrast" text="Contraste" />
@@ -44,10 +43,11 @@
       </ToolBar>
       <Button fx:id="globalsButton" layoutX="77.0" layoutY="552.0" mnemonicParsing="false" onAction="#showGlobals" text="Globales" />
       <Button fx:id="dataButton" layoutX="149.0" layoutY="553.0" mnemonicParsing="false" onAction="#showData" text="Image Data" />
-      <ToolBar fx:id="dataBar" layoutX="149.0" layoutY="545.0" onDragDetected="#showData" prefHeight="40.0" prefWidth="200.0" visible="false">
+      <ToolBar fx:id="dataBar" layoutX="149.0" layoutY="545.0" onDragDetected="#showData" prefHeight="40.0" prefWidth="293.0" visible="false">
         <items>
           <Button fx:id="totalColorsButton" mnemonicParsing="false" onAction="#getColorsTotal" text="Colores" />
             <Button fx:id="dimensionsButton" mnemonicParsing="false" onAction="#getDimensions" text="Dimensiones" />
+            <Button mnemonicParsing="false" onAction="#createHistogram" text="Histograma" />
         </items>
       </ToolBar>
       <Button fx:id="geometricButton" layoutX="235.0" layoutY="553.0" mnemonicParsing="false" onAction="#showGeometrics" text="Geometricos" />
@@ -68,8 +68,8 @@
             <Button mnemonicParsing="false" onAction="#roberts" text="Roberts" />
         </items>
       </ToolBar>
-      <Button fx:id="flattenButton" layoutX="16.0" layoutY="581.0" mnemonicParsing="false" onAction="#flattenHistogram" text="Aplanar" visible="false" />
-      <Button layoutX="255.0" layoutY="589.0" mnemonicParsing="false" text="Kernel Personalizado" />
+      <Button fx:id="flattenButton" layoutX="16.0" layoutY="581.0" mnemonicParsing="false" onAction="#flattenHistogram" text="Combinar" visible="false" />
+      <Button fx:id="kernelPersonalizado" layoutX="255.0" layoutY="589.0" mnemonicParsing="false" onAction="#kernelPersonalizadoAction" text="Kernel Personalizado" />
       <ToolBar fx:id="personalizedKernel" layoutX="75.0" layoutY="514.0" prefHeight="220.0" prefWidth="310.0" visible="false">
         <items>
             <GridPane fx:id="kernel" gridLinesVisible="true">
@@ -198,15 +198,86 @@
       <Label fx:id="dataLabel" layoutX="76.0" layoutY="593.0" />
       <ToolBar fx:id="zoomToolBar" layoutX="14.0" layoutY="624.0" prefHeight="40.0" prefWidth="553.0" visible="false">
         <items>
-          <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomInVecino" text="ZoomIn Vecino x2" />
-            <Button fx:id="zoomAlejar" mnemonicParsing="false" onAction="#zoomOutVecino" text="ZoomOut Vecino x2" />
-            <TextField fx:id="zoomX" prefHeight="25.0" prefWidth="30.0" promptText="x" />
-            <TextField fx:id="zoomY" prefHeight="25.0" prefWidth="31.0" promptText="y" />
+          <Button fx:id="zoomAcercar" mnemonicParsing="false" onAction="#zoomInVecino" text="ZoomIn Vecino " />
+            <Button fx:id="zoomAlejar" mnemonicParsing="false" onAction="#zoomOutVecino" text="ZoomOut Vecino " />
+            <TextField fx:id="zoomX" prefHeight="25.0" prefWidth="30.0" promptText="2" />
             <Button fx:id="ZoomInBilineal" mnemonicParsing="false" onAction="#zoomInBilinealAction" text="ZoomIn Bilineal" />
-            <Button fx:id="ZoomOutBilineal" mnemonicParsing="false" text="ZoomOut Bilineal" />
+            <Button fx:id="ZoomOutBilineal" mnemonicParsing="false" onAction="#deZoomInBilinealAction" text="ZoomOut Bilineal" />
         </items>
       </ToolBar>
-      <Slider fx:id="viewPortW" disable="true" layoutX="38.0" layoutY="523.0" majorTickUnit="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="494.0" visible="false" />
-      <Slider fx:id="viewPortH" disable="true" layoutX="13.0" layoutY="14.0" majorTickUnit="2.0" minorTickCount="1" orientation="VERTICAL" prefHeight="506.0" prefWidth="14.0" visible="false" />
+      <GridPane fx:id="customKernel" layoutX="391.0" layoutY="589.0" prefHeight="130.0" prefWidth="173.0" visible="false">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField />
+            <TextField GridPane.columnIndex="1" />
+            <TextField GridPane.columnIndex="2" />
+            <TextField GridPane.columnIndex="3" />
+            <TextField GridPane.columnIndex="4" />
+            <TextField GridPane.columnIndex="5" />
+            <TextField GridPane.columnIndex="6" />
+            <TextField GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <TextField GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <TextField GridPane.rowIndex="3" />
+            <TextField GridPane.rowIndex="4" />
+            <TextField GridPane.rowIndex="5" />
+            <TextField GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="5" GridPane.rowIndex="6" />
+            <TextField GridPane.columnIndex="6" GridPane.rowIndex="6" />
+         </children>
+      </GridPane>
+      <TextField fx:id="customKernelRows" layoutX="347.0" layoutY="652.0" prefHeight="25.0" prefWidth="25.0" text="1" visible="false" />
+      <TextField fx:id="customKernelColumns" layoutX="445.0" layoutY="740.0" prefHeight="25.0" prefWidth="27.0" text="1" visible="false" />
+      <Button fx:id="customKernelButton" layoutX="292.0" layoutY="707.0" mnemonicParsing="false" onAction="#customKernelAction" text="Aplicar Kernel" visible="false" />
     </children>
 </AnchorPane>

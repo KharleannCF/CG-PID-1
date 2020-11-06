@@ -22,3 +22,7 @@ Para el caso de los Filtros locales, disponemos de 2 sliders para coordinar el t
 En el caso del filtro Gaussiano, usamos el trianguló de pascal para calcular los valores del kernel.
 
 Asi mismo como tratamiento general para todos los kernels que se aplican, en el caso de que se necesite usar un pixel cuyo valor no podemos obtener (pixeles en la posicion 0-1 por ejemplo) usamos el valor del pivote como el valor de estos pixeles, usamos el valor del pivote para de alguna manera evitar aclarar o oscurecer la imagen o evitar usar la imagen de manera "circular".
+
+Para los Zooms, estan los botones para hacer zoomIn y zoomOut y la cantidad de zoom que se quiera hacer se escribe en el campo de texto de enmedio
+
+Para el kernel personalizado, Se escribe el kernel que se quiera aplicar, en el campo de texto de la izquierda la cantidad de filas del kernel, en el campo de texto de abajo la cantidad de columnas del kernel

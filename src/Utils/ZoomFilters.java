@@ -15,19 +15,21 @@ import java.awt.image.BufferedImage;
  */
 public class ZoomFilters {  
     
-       public BufferedImage zoomVecino(BufferedImage original, int m, int n){
-            BufferedImage result = new BufferedImage((original.getWidth()*2),(original.getHeight()*2), BufferedImage.TYPE_INT_RGB);
+       public BufferedImage zoomVecino(BufferedImage original, int m, int n, int mult){
+            BufferedImage result = new BufferedImage((original.getWidth()*mult),(original.getHeight()*mult), BufferedImage.TYPE_INT_RGB);
             Graphics g2 = result.createGraphics();
             
             int k = 0, l = 0;
             //System.out.println("ENTRE A LA PUTA FUNCION");
             //Esta solucion es la mas rapida que se me ocurrio, no se si se pueda implementar de forma mas rapida
 
-            for (int y = 0; y < result.getHeight(); y++) {
-                for (int x = 0; x < result.getWidth(); x++) {
+            int Height = result.getHeight();
+            int Width = result.getWidth();
+            for (int y = 0; y < Height; y++) {
+                for (int x = 0; x < Width; x++) {
                    try{
                        
-                    g2.setColor(Vecino(original, y/2, x/2));
+                    g2.setColor(Vecino(original,(float) y/mult,(float) x/mult));
                     g2.fillRect(y,x, y+1, x+1);
                     
                    }catch(Exception exp){
@@ -42,12 +44,12 @@ public class ZoomFilters {
         return result;
        }
        
-       public Color Vecino(BufferedImage Original, int j, int i){
+       public Color Vecino(BufferedImage Original, float j, float i){
            Color color;
            int minDistancia = 9999999;
            int minY = 0, minX = 0;
-           for (int y = j-1; y < j+1; y++) {
-                for (int x = i-1; x < i+1; x++) {
+           for (int y = (int)j-1; y < (int)j+1; y++) {
+                for (int x = (int)i-1; x < (int)i+1; x++) {
                   if(Math.sqrt( (Math.pow(y-j,2) + Math.pow(x-i,2))) < minDistancia ){
                       minY = y;
                       minX = x;
@@ -64,8 +66,8 @@ public class ZoomFilters {
            return color;
        }
        
-    public BufferedImage deZoomVecino(BufferedImage original, int m, int n){
-            BufferedImage result = new BufferedImage((original.getWidth()/2),(original.getHeight()/2), BufferedImage.TYPE_INT_RGB);
+    public BufferedImage deZoomVecino(BufferedImage original, int m, int n, int mult){
+            BufferedImage result = new BufferedImage((original.getWidth()/mult),(original.getHeight()/mult), BufferedImage.TYPE_INT_RGB);
             Graphics g2 = result.createGraphics();
             
             int k = 0, l = 0;
@@ -76,7 +78,7 @@ public class ZoomFilters {
                 for (int x = 0; x < result.getWidth(); x++) {
                    try{
                        
-                    g2.setColor(Vecino(original, y*2, x*2));
+                    g2.setColor(Vecino(original, y*mult, x*mult));
                     g2.fillRect(y,x, y+1, x+1);
                     
                    }catch(Exception exp){
@@ -89,9 +91,9 @@ public class ZoomFilters {
         return result;
        }
     
-    public BufferedImage zoomInBilineal(BufferedImage original, int m, int n){
+    public BufferedImage zoomInBilineal(BufferedImage original, int m, int n, int mult){
         
-            BufferedImage result = new BufferedImage((original.getWidth()*2),(original.getHeight()*2), BufferedImage.TYPE_INT_RGB);
+            BufferedImage result = new BufferedImage((original.getWidth()*mult),(original.getHeight()*mult), BufferedImage.TYPE_INT_RGB);
             Graphics g2 = result.createGraphics();
             
             //Esta solucion es la mas rapida que se me ocurrio, no se si se pueda implementar de forma mas rapida
@@ -100,7 +102,31 @@ public class ZoomFilters {
                 for (int x = 0; x < result.getWidth(); x++) {
                    try{
                        
-                    g2.setColor(APrima(original, (float) y/2, (float) x/2));
+                    g2.setColor(APrima(original, (float) y/mult, (float) x/mult));
+                    g2.fillRect(y,x, y+1, x+1);
+                    
+                   }catch(Exception exp){
+                       
+                   }
+                }
+            }
+
+        System.out.println("RETORNO");
+        return result;
+       }
+    
+    public BufferedImage deZoomInBilineal(BufferedImage original, int m, int n, int mult){
+        
+            BufferedImage result = new BufferedImage((original.getWidth()/mult),(original.getHeight()/mult), BufferedImage.TYPE_INT_RGB);
+            Graphics g2 = result.createGraphics();
+            
+            //Esta solucion es la mas rapida que se me ocurrio, no se si se pueda implementar de forma mas rapida
+
+            for (int y = 0; y < result.getHeight(); y++) {
+                for (int x = 0; x < result.getWidth(); x++) {
+                   try{
+                       
+                    g2.setColor(APrima(original, (float) y*mult, (float) x*mult));
                     g2.fillRect(y,x, y+1, x+1);
                     
                    }catch(Exception exp){
