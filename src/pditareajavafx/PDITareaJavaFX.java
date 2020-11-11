@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.opencv.core.Core;
 /**
  *
  * @author Kharleann
@@ -32,6 +33,7 @@ public class PDITareaJavaFX extends Application {
      */
     public static void main(String[] args) {
         
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         launch(args);
     }
     
