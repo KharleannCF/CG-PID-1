@@ -5,7 +5,8 @@
         <group>
             <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/pditareajavafx/PDITareaJavaFX.java</file>
             <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/pditareajavafx/FXMLDocumentController.java</file>
-            <file>jar:file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/dependencies/opencv-450.jar!/org/opencv/core/Core.java</file>
+            <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/Utils/Obsidian.java</file>
+            <file>file:/C:/Users/Danielito/Desktop/Workbench/CG-PID-1/src/Utils/Neptune.java</file>
         </group>
     </open-files>
 </project-private>
