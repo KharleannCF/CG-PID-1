@@ -12,6 +12,7 @@ import Utils.GlobalFilter;
 import Utils.Histogram;
 import Utils.ImageCustom;
 import Utils.LocalFilter;
+import Utils.Neptune;
 import Utils.ZoomFilters;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -62,6 +63,8 @@ public class FXMLDocumentController implements Initializable {
     private Slider BWSlider;
     @FXML
     private Slider brightSlider;
+    @FXML
+    private Slider rotationSlider;
     @FXML
     private Slider brightNSlider;
     @FXML
@@ -175,6 +178,7 @@ public class FXMLDocumentController implements Initializable {
     ZoomFilters zoomFilter = new ZoomFilters();
     GeometricFilter geometricFilter = new GeometricFilter();
     Histogram histogramFilter = new Histogram();
+    Neptune neptune = new Neptune();
     int borderKernelSize = 3;
     int robertsSize = 2;
     char vectorDir ='M';
@@ -836,6 +840,7 @@ public class FXMLDocumentController implements Initializable {
         BWSlider.setVisible(false);
         brightSlider.setVisible(false);
         brightNSlider.setVisible(false);
+        rotationSlider.setVisible(false);
         }
        }
     
@@ -855,6 +860,23 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("hola");
         //ourImage.setResult();
         Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+    }
+     @FXML
+    public void rotationSliderMove() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int value = (int) rotationSlider.getValue();
+        value = value * -1;
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(neptune.FreeRotation(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
      @FXML
@@ -1629,6 +1651,22 @@ public class FXMLDocumentController implements Initializable {
         imgV.setImage(image);
     }
     @FXML
+    private void freeRotation(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(ourImage.getOriginal());
+        rotationSlider.setVisible(true);
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
     private void rightToLeft(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
@@ -1655,6 +1693,24 @@ public class FXMLDocumentController implements Initializable {
         int index = fileName.lastIndexOf('.');
         String extension = fileName.substring(index + 1);
         ImageIO.write(bImage, extension, selectedFile);
+    }
+    
+     @FXML
+    public void RotationSlider() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        double value = brightSlider.getValue();
+        
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
     }
     
     
