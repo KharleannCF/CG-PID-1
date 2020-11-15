@@ -66,6 +66,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider rotationSlider;
     @FXML
+    private Slider panXSlider;
+    @FXML
+    private Slider panYSlider;
+    @FXML
     private Slider brightNSlider;
     @FXML
     private Slider localW;
@@ -841,6 +845,8 @@ public class FXMLDocumentController implements Initializable {
         brightSlider.setVisible(false);
         brightNSlider.setVisible(false);
         rotationSlider.setVisible(false);
+        panXSlider.setVisible(false);
+        panYSlider.setVisible(false);
         }
        }
     
@@ -877,6 +883,23 @@ public class FXMLDocumentController implements Initializable {
         value = value * -1;
         //ourImage.setResult();
         Image image = SwingFXUtils.toFXImage(neptune.FreeRotation(ourImage.getOriginal(), value), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    public void planSliderMove() throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        int valueX = (int) panXSlider.getValue();
+        int valueY = (int) panYSlider.getValue();
+        //ourImage.setResult();
+        Image image = SwingFXUtils.toFXImage(neptune.freePanning(ourImage.getOriginal(), valueX, valueY), null);
         imgV.setImage(image);
     }
      @FXML
@@ -1663,6 +1686,27 @@ public class FXMLDocumentController implements Initializable {
         }
         ourImage.setResult(ourImage.getOriginal());
         rotationSlider.setVisible(true);
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    @FXML
+    private void freePan(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(ourImage.getOriginal());
+        panXSlider.setMax(ourImage.getResult().getWidth() );
+        panXSlider.setMin( -1 * ourImage.getResult().getWidth());
+        panYSlider.setMax(ourImage.getResult().getHeight());
+        panYSlider.setMin( -1 * ourImage.getResult().getHeight());
+        panXSlider.setVisible(true);
+        panYSlider.setVisible(true);
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }

@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -112,4 +113,26 @@ public class Neptune {
         
         return result;
     }
+     
+         public BufferedImage freePanning(BufferedImage original, int panX, int panY) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        Point p1 = new Point( 0,0 );
+        Point p2 = new Point( origin.cols() - 1, 0 );
+        Point p3 = new Point( 0, origin.rows() - 1 );
+        Point p4 = new Point( panX, panY );
+        Point p5 = new Point(  origin.cols() - 1 + panX, panY );
+        Point p6 = new Point( panX, origin.rows()-1 + panY  );
+      MatOfPoint2f ma1 = new MatOfPoint2f(p1,p2,p3);
+      MatOfPoint2f ma2 = new MatOfPoint2f(p4,p5,p6);
+      Mat tranformMatrix = Imgproc.getAffineTransform(ma1,ma2);   
+      int maxsize = origin.rows() > origin.cols() ? origin.rows():origin.cols();
+      Imgproc.warpAffine(origin, resultMat, tranformMatrix, new Size(maxsize, maxsize));
+        result = bufferize(resultMat);
+        
+        return result;
+    }
+     
 }
