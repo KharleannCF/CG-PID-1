@@ -50,6 +50,8 @@ import javafx.geometry.Insets;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 /**
  *
@@ -484,6 +486,7 @@ public class FXMLDocumentController implements Initializable {
         int returnValue = jfc.showOpenDialog(null);
         File selectedFile = jfc.getSelectedFile();
         String name = selectedFile.getName();
+        String fileLocation = selectedFile.getAbsolutePath();
         if(name.contains(".pbm" )){
             Scanner myReader = new Scanner(selectedFile);
             String pixelSizeString = myReader.nextLine();
@@ -553,11 +556,14 @@ public class FXMLDocumentController implements Initializable {
             imgV.setImage(image);
             
         }else{
-        BufferedImage preImage = ImageIO.read(selectedFile);
+        //BufferedImage preImage = ImageIO.read(selectedFile);
+        Mat src = Imgcodecs.imread(fileLocation);
+        BufferedImage preImage = neptune.bufferize(src);
         ourImage.setOriginal(preImage);
         ourImage.setWidth(ourImage.getOriginal().getWidth());
         ourImage.setHeight(ourImage.getOriginal().getHeight());        
         ourImage.reSize(ourImage.getWidth(), ourImage.getHeight());
+        
         ourImage.setResult(preImage);
         
         Image image = SwingFXUtils.toFXImage(ourImage.getOriginal(), null);
@@ -1721,7 +1727,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        ourImage.setResult(geometricFilter.rotateRToL(ourImage.getOriginal()));
+        ourImage.setResult(neptune.equalization(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
         

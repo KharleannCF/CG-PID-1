@@ -16,14 +16,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -134,5 +140,67 @@ public class Neptune {
         
         return result;
     }
+        public BufferedImage equalization(BufferedImage original) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        Imgproc.cvtColor(origin, origin, Imgproc.COLOR_BGR2YCrCb);
+         List<Mat> channels = new ArrayList<Mat>();
+         Core.split(origin, channels);
+
+      // Equalizing the histogram of the image
+      Imgproc.equalizeHist(channels.get(0), channels.get(0));
+      Core.merge(channels, origin);
+      Imgproc.cvtColor(origin, origin, Imgproc.COLOR_YCrCb2BGR);
+        //Imgproc.equalizeHist( origin, resultMat );
+        result = bufferize(origin);
+        
+        return result;
+    }
+         
+         public BufferedImage histogram(BufferedImage original) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        
+        List<Mat> bgrPlanes = new ArrayList <>();
+        Core.split(origin, bgrPlanes);
+        int histSize = 256;
+        float[] range = {0, 256}; //the upper boundary is exclusive
+        MatOfFloat histRange = new MatOfFloat(range);
+        boolean accumulate = false;
+        Mat bHist = new Mat(), gHist = new Mat(), rHist = new Mat();
+        Imgproc.calcHist(bgrPlanes, new MatOfInt(0), new Mat(), bHist, new MatOfInt(histSize), histRange, accumulate);
+        Imgproc.calcHist(bgrPlanes, new MatOfInt(1), new Mat(), gHist, new MatOfInt(histSize), histRange, accumulate);
+        Imgproc.calcHist(bgrPlanes, new MatOfInt(2), new Mat(), rHist, new MatOfInt(histSize), histRange, accumulate);
+        int histW = 512, histH = 400;
+        int binW = (int) Math.round((double) histW / histSize);
+        Mat histImage = new Mat( histH, histW, CvType.CV_8UC3, new Scalar( 0,0,0) );
+        Core.normalize(bHist, bHist, 0, histImage.rows(), Core.NORM_MINMAX);
+        Core.normalize(gHist, gHist, 0, histImage.rows(), Core.NORM_MINMAX);
+        Core.normalize(rHist, rHist, 0, histImage.rows(), Core.NORM_MINMAX);
+        float[] bHistData = new float[(int) (bHist.total() * bHist.channels())];
+        bHist.get(0, 0, bHistData);
+        float[] gHistData = new float[(int) (gHist.total() * gHist.channels())];
+        gHist.get(0, 0, gHistData);
+        float[] rHistData = new float[(int) (rHist.total() * rHist.channels())];
+        rHist.get(0, 0, rHistData);
+        for( int i = 1; i < histSize; i++ ) {
+            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(bHistData[i - 1])),
+                    new Point(binW * (i), histH - Math.round(bHistData[i])), new Scalar(255, 0, 0), 2);
+            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(gHistData[i - 1])),
+                    new Point(binW * (i), histH - Math.round(gHistData[i])), new Scalar(0, 255, 0), 2);
+            Imgproc.line(histImage, new Point(binW * (i - 1), histH - Math.round(rHistData[i - 1])),
+                    new Point(binW * (i), histH - Math.round(rHistData[i])), new Scalar(0, 0, 255), 2);
+        }
+        result = bufferize(histImage);
+        
+        return result;
+    }
+         
+         
+         
      
 }
