@@ -13,6 +13,7 @@ import Utils.Histogram;
 import Utils.ImageCustom;
 import Utils.LocalFilter;
 import Utils.Neptune;
+import Utils.Obsidian;
 import Utils.ZoomFilters;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -185,6 +186,7 @@ public class FXMLDocumentController implements Initializable {
     GeometricFilter geometricFilter = new GeometricFilter();
     Histogram histogramFilter = new Histogram();
     Neptune neptune = new Neptune();
+    Obsidian obsidian = new Obsidian();
     int borderKernelSize = 3;
     int robertsSize = 2;
     char vectorDir ='M';
@@ -201,6 +203,40 @@ public class FXMLDocumentController implements Initializable {
     matrix5.setSelected(false);
     matrix7.setSelected(false);
     borderKernelSize = 3;
+    }
+    
+    @FXML
+    private void eventTest(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(obsidian.toSpectrum(ourImage.getResult()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        
+    }
+    
+    @FXML
+    private void eventTest2(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.setResult(obsidian.toNormal(ourImage.getResult()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        
     }
     
     @FXML
