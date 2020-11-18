@@ -8,6 +8,16 @@ package Utils;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import Utils.Neptune;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 /**
  *
@@ -143,6 +153,39 @@ public class GlobalFilter {
         }
         return result;
     }
+    
+    public BufferedImage otsu(BufferedImage original){
+        
+        BufferedImage result;
+        Neptune a = new Neptune();
+        Mat origin = a.matify(original);
+        Mat dst = new Mat(origin.rows(), origin.cols(), origin.type());
+        Imgproc.cvtColor(origin, dst, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.threshold(dst, dst, 50, 255, Imgproc.THRESH_OTSU);
+        dst.convertTo(dst, CvType.CV_8UC3);
+        origin = dst;
+        
+        try{
+            
+            result = bufferize(origin);
+            
+        }catch(IOException ex){
+            
+            result = original;
+            
+        }
+        
+        return result;
+    }
+    
+    public BufferedImage bufferize(Mat ori) throws IOException{
+        MatOfByte mOB = new MatOfByte();
+        Imgcodecs.imencode(".png", ori, mOB);
+        byte [] ba = mOB.toArray();
+        BufferedImage result = ImageIO.read(new ByteArrayInputStream(ba));
+        return result;
+    }
+    
     public BufferedImage blackAndWhite(BufferedImage original, double value){
         BufferedImage result = new BufferedImage(original.getWidth(),original.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g2 = result.createGraphics();
