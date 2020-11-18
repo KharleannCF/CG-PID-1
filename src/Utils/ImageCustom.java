@@ -35,18 +35,24 @@ public class ImageCustom {
     }
     
     public BufferedImage redo(BufferedImage actual){
-        
-        BufferedImage result = this.redoStack.pop();
-        this.undoStack.push(actual);
-        
+        BufferedImage result;
+        if(!this.redoStack.empty()){
+            result = this.redoStack.pop();
+            this.undoStack.push(actual);
+        }else{
+            result = actual;
+        }
         return result;
     }
     
     public BufferedImage undo(BufferedImage actual){
-        
-        BufferedImage result = this.undoStack.pop();
-        this.redoStack.push(actual);
-        
+        BufferedImage result;
+        if(!this.undoStack.empty()){
+            result = this.undoStack.pop();
+            this.redoStack.push(actual);
+        }else{
+            result = actual;
+        }
         return result;
     }
     
