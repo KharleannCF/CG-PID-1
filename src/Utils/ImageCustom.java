@@ -7,6 +7,9 @@ package Utils;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.Stack;
+import org.opencv.core.Mat;
 
 /**
  *
@@ -15,6 +18,8 @@ import java.awt.image.BufferedImage;
 public class ImageCustom {
     public BufferedImage original;
     public BufferedImage result;
+    public Stack<BufferedImage> undoStack;
+    public Stack<BufferedImage> redoStack;
     public Pixel[][] pixels;
     public int width;
     public int height;
@@ -25,6 +30,34 @@ public class ImageCustom {
         width = 0;
         height = 0;
         totalColors = 0;
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();  
+    }
+    
+    public BufferedImage redo(BufferedImage actual){
+        
+        BufferedImage result = this.redoStack.pop();
+        this.undoStack.push(actual);
+        
+        return result;
+    }
+    
+    public BufferedImage undo(BufferedImage actual){
+        
+        BufferedImage result = this.undoStack.pop();
+        this.redoStack.push(actual);
+        
+        return result;
+    }
+    
+    public void newAction(BufferedImage actual){
+        
+        this.undoStack.push(actual);
+        
+        while( !this.redoStack.empty() ){
+            this.redoStack.pop();
+        }
+        
     }
     
     public void setOriginal(BufferedImage img){
