@@ -29,6 +29,7 @@ import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -39,7 +40,8 @@ import org.opencv.imgproc.Imgproc;
  * @author Danielito
  */
 public class Neptune {
-       
+    private static List<Mat> planes = new ArrayList<Mat>();
+    private static List<Mat> allPlanes = new ArrayList<Mat>();
     
     public Mat bufferedImage2Mat(BufferedImage bi) throws IOException{
         
@@ -119,6 +121,8 @@ public class Neptune {
         
         return result;
     }
+     
+     
      
          public BufferedImage freePanning(BufferedImage original, int panX, int panY) throws IOException{
         BufferedImage result =null;
@@ -200,7 +204,291 @@ public class Neptune {
         return result;
     }
          
+        public BufferedImage erosion(BufferedImage original, char type) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_BGR2YCrCb);
+         List<Mat> channels = new ArrayList<Mat>();
+         Core.split(origin, channels);
+         int typeMorph;
+        switch (type) {
+            case 'O':
+                typeMorph = Imgproc.MORPH_ELLIPSE;
+                break;
+            case 'B':
+                typeMorph = Imgproc.MORPH_RECT;
+                break;
+            default:
+                typeMorph = Imgproc.MORPH_CROSS;
+                break;
+        }
+         
+         Mat kernel = Imgproc.getStructuringElement(typeMorph, new Size(3,3));
+      // Equalizing the histogram of the image
+        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
+        //Imgproc.erode(channels.get(1), channels.get(1), kernel);
+        //Imgproc.erode(channels.get(2), channels.get(2), kernel);
+        //Core.merge(channels, origin);
+        Imgproc.erode(origin, origin, kernel);
+      //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_YCrCb2BGR);
+        //Imgproc.equalizeHist( origin, resultMat );
+        result = bufferize(origin);
+        
+        return result;
+    }
+        public BufferedImage dilatacion(BufferedImage original, char type) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_BGR2YCrCb);
+         List<Mat> channels = new ArrayList<Mat>();
+         Core.split(origin, channels);
+         int typeMorph;
+        switch (type) {
+            case 'O':
+                typeMorph = Imgproc.MORPH_ELLIPSE;
+                break;
+            case 'B':
+                typeMorph = Imgproc.MORPH_RECT;
+                break;
+            default:
+                typeMorph = Imgproc.MORPH_CROSS;
+                break;
+        }
          
          
-     
+         Mat kernel = Imgproc.getStructuringElement(typeMorph, new Size(3,3));
+      // Equalizing the histogram of the image
+        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
+        //Imgproc.erode(channels.get(1), channels.get(1), kernel);
+        //Imgproc.erode(channels.get(2), channels.get(2), kernel);
+        //Core.merge(channels, origin);
+        Imgproc.dilate(origin, origin, kernel);
+      //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_YCrCb2BGR);
+        //Imgproc.equalizeHist( origin, resultMat );
+        result = bufferize(origin);
+        
+        return result;
+    }
+        public BufferedImage openKernel(BufferedImage original, char type) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_BGR2YCrCb);
+         List<Mat> channels = new ArrayList<Mat>();
+         Core.split(origin, channels);
+         int typeMorph;
+        switch (type) {
+            case 'O':
+                typeMorph = Imgproc.MORPH_ELLIPSE;
+                break;
+            case 'B':
+                typeMorph = Imgproc.MORPH_RECT;
+                break;
+            default:
+                typeMorph = Imgproc.MORPH_CROSS;
+                break;
+        }
+         
+         Mat kernel = Imgproc.getStructuringElement(typeMorph, new Size(3,3));
+      // Equalizing the histogram of the image
+        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
+        //Imgproc.erode(channels.get(1), channels.get(1), kernel);
+        //Imgproc.erode(channels.get(2), channels.get(2), kernel);
+        //Core.merge(channels, origin);
+        Imgproc.morphologyEx(origin, origin, Imgproc.MORPH_OPEN, kernel);
+      //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_YCrCb2BGR);
+        //Imgproc.equalizeHist( origin, resultMat );
+        result = bufferize(origin);
+        
+        return result;
+    }
+        public BufferedImage closeKernel(BufferedImage original, char type) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_BGR2YCrCb);
+         List<Mat> channels = new ArrayList<Mat>();
+         Core.split(origin, channels);
+         int typeMorph;
+        switch (type) {
+            case 'O':
+                typeMorph = Imgproc.MORPH_ELLIPSE;
+                break;
+            case 'B':
+                typeMorph = Imgproc.MORPH_RECT;
+                break;
+            default:
+                typeMorph = Imgproc.MORPH_CROSS;
+                break;
+        }
+         
+         Mat kernel = Imgproc.getStructuringElement(typeMorph, new Size(3,3));
+      // Equalizing the histogram of the image
+        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
+        //Imgproc.erode(channels.get(1), channels.get(1), kernel);
+        //Imgproc.erode(channels.get(2), channels.get(2), kernel);
+        //Core.merge(channels, origin);
+        Imgproc.morphologyEx(origin, origin, Imgproc.MORPH_CLOSE, kernel);
+      //Imgproc.cvtColor(origin, origin, Imgproc.COLOR_YCrCb2BGR);
+        //Imgproc.equalizeHist( origin, resultMat );
+        result = bufferize(origin);
+        
+        return result;
+    }
+         
+         
+        
+        
+         
+         private static Mat optimizeImageDim(Mat image) {
+        Mat padded = new Mat();
+        int addPixelRows = Core.getOptimalDFTSize(image.rows());
+        int addPixelCols = Core.getOptimalDFTSize(image.cols());
+        Core.copyMakeBorder(image, padded, 0, addPixelRows - image.rows(), 0, addPixelCols - image.cols(), 
+        Core.BORDER_CONSTANT, Scalar.all(0));
+
+        return padded;
+         }
+         
+         private static Mat splitSrc(Mat mat, ImageCustom ourImage) {
+        mat = optimizeImageDim(mat);
+        Core.split(mat, allPlanes);
+        ourImage.addPlanes(allPlanes);
+        Mat padded = new Mat();
+        if (allPlanes.size() > 1) {
+            for (int i = 0; i < allPlanes.size(); i++) {
+                if (i == 0) {
+                    padded = allPlanes.get(i);
+                    break;
+                }
+            }
+        } else {
+            padded = mat;
+        }
+        return padded;
+
+         }
+         
+         private static Mat splitSrc2(Mat mat) {
+        mat = optimizeImageDim(mat);
+        Core.split(mat, allPlanes);
+        Mat padded = new Mat();
+        if (allPlanes.size() > 1) {
+            for (int i = 0; i < allPlanes.size(); i++) {
+                if (i == 0) {
+                    padded = allPlanes.get(i);
+                    break;
+                }
+            }
+        } else {
+            padded = mat;
+        }
+        return padded;
+
+         }
+         
+         private static Mat createOptimizedMagnitude(Mat complexImage) {
+        List<Mat> newPlanes = new ArrayList<Mat>();
+        Mat mag = new Mat();
+        Core.split(complexImage, newPlanes);
+        Core.magnitude(newPlanes.get(0), newPlanes.get(1), mag);
+        Core.add(Mat.ones(mag.size(), CvType.CV_32F), mag, mag);
+        Core.log(mag, mag);
+        shiftDFT(mag);
+        mag.convertTo(mag, CvType.CV_8UC1);
+        Core.normalize(mag, mag, 0, 255, Core.NORM_MINMAX, CvType.CV_8UC1);
+        return mag;
+    }
+         private static void shiftDFT(Mat image) {
+        image = image.submat(new Rect(0, 0, image.cols() & -2, image.rows() & -2));
+        int cx = image.cols() / 2;
+        int cy = image.rows() / 2;
+ 
+        Mat q0 = new Mat(image, new Rect(0, 0, cx, cy));
+        Mat q1 = new Mat(image, new Rect(cx, 0, cx, cy));
+        Mat q2 = new Mat(image, new Rect(0, cy, cx, cy));
+        Mat q3 = new Mat(image, new Rect(cx, cy, cx, cy));
+        Mat tmp = new Mat();
+        q0.copyTo(tmp);
+        q3.copyTo(q0);
+        tmp.copyTo(q3);
+        q1.copyTo(tmp);
+        q2.copyTo(q1);
+        tmp.copyTo(q2);
+    }
+         
+         public static Mat getImageWatermarkWithText(Mat image, ImageCustom ourImage){
+        List<Mat> planes = new ArrayList<Mat>();
+        Mat complexImage = new Mat();
+        Mat padded = splitSrc(image, ourImage);
+        padded.convertTo(padded, CvType.CV_32F);
+        planes.add(padded);
+        planes.add(Mat.zeros(padded.size(), CvType.CV_32F));
+        Core.merge(planes, complexImage);
+        // dft
+        Core.dft(complexImage, complexImage);
+        ourImage.addImage(complexImage);
+        Mat magnitude = createOptimizedMagnitude(complexImage);
+        planes.clear();
+        return magnitude;
+    }
+         
+       public BufferedImage fourier(BufferedImage original, ImageCustom ourImage) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        resultMat = getImageWatermarkWithText(origin, ourImage);
+       
+        result = bufferize(resultMat);
+        
+        return result;
+    }
+       public BufferedImage invFourier(BufferedImage original, ImageCustom ourImage) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+        resultMat = inverseDFT(origin, ourImage);
+           
+       
+        result = bufferize(resultMat);
+        
+        return result;
+    }
+       
+        public static Mat inverseDFT(Mat image, ImageCustom ourImage){
+        List<Mat> planes = new ArrayList<Mat>();
+        //Mat complexImage = ourImage.complexImage;
+        //Mat padded = splitSrc2(image);
+        //padded.convertTo(padded, CvType.CV_32F);
+        //planes.add(padded);
+        //planes.add(Mat.zeros(padded.size(), CvType.CV_32F));
+        //Core.merge(planes, complexImage);
+        // dft
+            System.out.println(ourImage.getImage());
+        return antitransformImage(ourImage.getImage(), ourImage.getPlanes());
+    }
+           
+           private static Mat antitransformImage(Mat complexImage, List<Mat> allPlanes) {
+        Mat invDFT = new Mat();
+        Core.idft(complexImage, invDFT, Core.DFT_SCALE | Core.DFT_REAL_OUTPUT, 0);
+        Mat restoredImage = new Mat();
+        invDFT.convertTo(restoredImage, CvType.CV_8U);
+        if (allPlanes.size() == 0) {
+            allPlanes.add(restoredImage);
+        } else {
+            allPlanes.set(0, restoredImage);
+        }
+        Mat lastImage = new Mat();
+        Core.merge(allPlanes, lastImage);
+        return lastImage;
+    }
+           
 }
