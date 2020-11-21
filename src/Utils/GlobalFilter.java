@@ -11,13 +11,18 @@ import java.awt.image.BufferedImage;
 import Utils.Neptune;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import static org.opencv.imgproc.Imgproc.accumulate;
 
 /**
  *
@@ -176,6 +181,77 @@ public class GlobalFilter {
         }
         
         return result;
+    }
+    
+    public BufferedImage bht(BufferedImage original){
+        
+        BufferedImage result;
+        Neptune a = new Neptune();
+        Mat origin = a.matify(original);
+        Mat dst = new Mat(origin.rows(), origin.cols(), origin.type());
+        Imgproc.cvtColor(origin, dst, Imgproc.COLOR_BGR2GRAY);
+        int histSize = 256;
+        boolean accumulate = false;
+
+        float[] range = {0, 256}; //the upper boundary is exclusive
+        MatOfFloat histRange = new MatOfFloat(range);
+        
+        List<Mat> hist = new ArrayList<>();
+        hist.add(dst);
+        
+        Mat bHist = new Mat();
+        Imgproc.calcHist(hist, new MatOfInt(0), new Mat(), bHist, new MatOfInt(histSize), histRange, accumulate);       
+        float[] histogram = new float[(int) (bHist.total() * bHist.channels())];
+        bHist.get(0, 0, histogram);
+
+        int i_s = 0, i_e = 255;
+        int i_m = (int)((i_s + i_e) / 2.0f); // center of the weighing scale I_m
+        float w_l = get_weight(i_s, i_m + 1, histogram); // weight on the left W_l
+        float w_r = get_weight(i_m + 1, i_e + 1, histogram); // weight on the right W_r
+        while (i_s <= i_e) {
+            if (w_r > w_l) { // right side is heavier
+                w_r -= histogram[i_e--];
+                if (((i_s + i_e) / 2) < i_m) {
+                    w_r += histogram[i_m];
+                    w_l -= histogram[i_m--];
+                }
+            } else if (w_l >= w_r) { // left side is heavier
+                w_l -= histogram[i_s++]; 
+                if (((i_s + i_e) / 2) >= i_m) {
+                    w_l += histogram[i_m + 1];
+                    w_r -= histogram[i_m + 1];
+                    i_m++;
+                }
+            }
+        }
+    
+        
+        Imgproc.threshold(dst, dst, i_m, 255, Imgproc.THRESH_BINARY);
+        dst.convertTo(dst, CvType.CV_8UC3);
+        origin = dst;
+        
+        try{
+            
+            result = bufferize(origin);
+            
+        }catch(IOException ex){
+            
+            result = original;
+            
+        }
+        
+        return result;
+    }
+    
+    public float get_weight(int inf, int sup, float[] histogram){
+        
+        float weight = (float) 0.0;
+        
+        for(int i = inf; i < sup; i++){
+            weight += histogram[i];
+        }
+        
+        return weight;
     }
     
     public BufferedImage bufferize(Mat ori) throws IOException{
