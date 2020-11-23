@@ -341,7 +341,31 @@ public class Neptune {
         
         return result;
     }
+
+        public BufferedImage floodFill(BufferedImage original, int vecindad) throws IOException{
+        BufferedImage result =null;
+        Mat origin = null;
+        origin = this.matify(original);
+        Mat resultMat = new Mat();
+     
+         //List<Mat> channels = new ArrayList<Mat>();
+        Mat flooded=new Mat();
+        Point flood=new Point(original.getWidth()-1,original.getHeight()-1);
+        Scalar lowerDiff = new Scalar(10, 10, 10);
+        Scalar color = new Scalar(255,0,0);
+        Scalar upperDiff = new Scalar(100, 100, 100);
+        //int flags = vecindad + (ffillMode == 1 ? Imgproc.FLOODFILL_FIXED_RANGE : 0);
+        int flags = vecindad ;
+        
+        Imgproc.floodFill(origin, flooded , flood, color, null, lowerDiff, upperDiff, 8);
+      
          
+         
+     
+        result = bufferize(origin);
+        
+        return result;
+    }
          
         
         
