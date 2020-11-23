@@ -48,11 +48,25 @@ public class ImageCustom {
     
     public BufferedImage undo(BufferedImage actual){
         BufferedImage result;
+        
+        System.out.println(this.undoStack.empty());
+        
         if(!this.undoStack.empty()){
+            
+            System.out.println("Undo Stack not Empty");
+            System.out.println(this.undoStack.size());
+            
             result = this.undoStack.pop();
+            
+            System.out.println(this.undoStack.size());
+            System.out.println(result);
+            
             this.redoStack.push(actual);
+            
         }else{
+            
             result = actual;
+            
         }
         return result;
     }
@@ -64,6 +78,8 @@ public class ImageCustom {
         while( !this.redoStack.empty() ){
             this.redoStack.pop();
         }
+        
+        System.out.println(this.undoStack);
         
     }
     

@@ -279,5 +279,11 @@
       <TextField fx:id="customKernelRows" layoutX="347.0" layoutY="652.0" prefHeight="25.0" prefWidth="25.0" text="1" visible="false" />
       <TextField fx:id="customKernelColumns" layoutX="445.0" layoutY="740.0" prefHeight="25.0" prefWidth="27.0" text="1" visible="false" />
       <Button fx:id="customKernelButton" layoutX="292.0" layoutY="707.0" mnemonicParsing="false" onAction="#customKernelAction" text="Aplicar Kernel" visible="false" />
+      <Button fx:id="undoButton" layoutX="426.0" layoutY="514.0" mnemonicParsing="false" onAction="#undoEvent" text="Deshacer" />
+      <Button fx:id="redoButton" layoutX="499.0" layoutY="514.0" mnemonicParsing="false" onAction="#redoEvent" text="Rehacer" />
+      <Button fx:id="kMeansButton" layoutX="400.0" layoutY="677.0" mnemonicParsing="false" onAction="#kMeansEvent" text="calcular" />
+      <TextField fx:id="kMeansTextField" layoutX="474.0" layoutY="677.0" prefHeight="25.0" prefWidth="35.0" />
+      <Button layoutX="403.0" layoutY="715.0" mnemonicParsing="false" onAction="#otsuEvent" text="Otsu" />
+      <Button layoutX="403.0" layoutY="642.0" mnemonicParsing="false" onAction="#bhtEvent" text="BHT" />
     </children>
 </AnchorPane>

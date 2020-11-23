@@ -98,6 +98,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField zoomX;
     @FXML
     private TextField zoomY;
+    @FXML
+    private TextField kMeansTextField;
     
     @FXML
     private Button ZoomInBilineal;
@@ -242,10 +244,8 @@ public class FXMLDocumentController implements Initializable {
     formElem = 'C';
     }
     
-    
-    
     @FXML
-    private void eventTest(ActionEvent event) throws IOException {
+    private void kMeansEvent(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
                 ourImage.setOriginal(ourImage.getResult());
@@ -255,14 +255,71 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        ourImage.setResult(obsidian.toSpectrum(ourImage.getResult()));
+        
+        String number = kMeansTextField.getText();
+        int k = Integer.parseInt(number);
+        ourImage.newAction(ourImage.getResult());
+        ourImage.setResult(globalFilter.kmeans(ourImage.getResult(),k));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
-        imgV.setImage(image);    
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    private void undoEvent(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        ourImage.setResult(ourImage.undo(ourImage.getResult()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    private void redoEvent(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        ourImage.setResult(ourImage.redo(ourImage.getResult()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    private void otsuEvent(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.newAction(ourImage.getResult());
+        ourImage.setResult(globalFilter.otsu(ourImage.getResult()));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+        
+        
     }
     
     
     @FXML
-    private void eventTest2(ActionEvent event) throws IOException {
+    private void bhtEvent(ActionEvent event) throws IOException {
         try {
             if (ourImage.getResult()!=null){
                 ourImage.setOriginal(ourImage.getResult());
@@ -272,9 +329,11 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        ourImage.setResult(obsidian.toNormal(ourImage.getResult()));
+        ourImage.newAction(ourImage.getResult());
+        ourImage.setResult(globalFilter.bht(ourImage.getResult()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
+        
         
     }
     
@@ -310,6 +369,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(geometricFilter.rotateLToR(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -330,6 +390,7 @@ public class FXMLDocumentController implements Initializable {
         int mult = Integer.parseInt(zoomX.getText());
         int x = 1;//Integer.parseInt(zoomX.getText());
         int y = 1; //Integer.parseInt(zoomY.getText());
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(zoomFilter.zoomInBilineal(ourImage.getResult(), x, y, mult));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -365,6 +426,7 @@ public class FXMLDocumentController implements Initializable {
         int mult = Integer.parseInt(zoomX.getText());
         int x = 1;//Integer.parseInt(zoomX.getText());
         int y = 1; //Integer.parseInt(zoomY.getText());
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(zoomFilter.deZoomInBilineal(ourImage.getResult(), x, y, mult));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -403,7 +465,7 @@ public class FXMLDocumentController implements Initializable {
                     //System.out.println(customMatrix[y][x]);
                 }
             }
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.kernelApplier(ourImage.getResult(), customMatrix));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -424,7 +486,7 @@ public class FXMLDocumentController implements Initializable {
         int m = 1;//Integer.parseInt(zoomX.getText());
         int n = 1; //Integer.parseInt(zoomY.getText());
         int mult = Integer.parseInt(zoomX.getText());
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(zoomFilter.zoomVecino(ourImage.getResult(), m, n, mult));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -457,6 +519,7 @@ public class FXMLDocumentController implements Initializable {
         int n = 1; //Integer.parseInt(zoomY.getText());
         int mult = Integer.parseInt(zoomX.getText());
         
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(zoomFilter.deZoomVecino(ourImage.getResult(), m, n, mult));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -659,8 +722,8 @@ public class FXMLDocumentController implements Initializable {
         ourImage.reSize(ourImage.getWidth(), ourImage.getHeight());
         
         ourImage.setResult(preImage);
-        
         Image image = SwingFXUtils.toFXImage(ourImage.getOriginal(), null);
+        
         
         viewPortWmin = 0;
         viewPortWmax = 250;
@@ -686,6 +749,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.dilatacion(ourImage.getOriginal(), formElem), null);
         imgV.setImage(image);
         saveButton.setVisible(false);
@@ -702,6 +766,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.openKernel(ourImage.getOriginal(), formElem), null);
         imgV.setImage(image);
         saveButton.setVisible(false);
@@ -718,6 +783,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.closeKernel(ourImage.getOriginal(), formElem), null);
         imgV.setImage(image);
         saveButton.setVisible(false);
@@ -735,6 +801,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.erosion(ourImage.getOriginal(), formElem), null);
         imgV.setImage(image);
         saveButton.setVisible(false);
@@ -897,6 +964,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(globalFilter.negative(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -912,6 +980,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         double value = BWSlider.getValue();
         System.out.println("hola");
         //ourImage.setResult();
@@ -935,6 +1004,7 @@ public class FXMLDocumentController implements Initializable {
         double value = brightSlider.getValue();
         
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
         saveButton.setVisible(false);
@@ -991,6 +1061,7 @@ public class FXMLDocumentController implements Initializable {
         max = (int) colors.get(max);
         
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(globalFilter.contrast(ourImage.getOriginal(), min, max));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1029,6 +1100,7 @@ public class FXMLDocumentController implements Initializable {
         }
         double value = BWSlider.getValue();
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(globalFilter.blackAndWhite(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
@@ -1046,6 +1118,7 @@ public class FXMLDocumentController implements Initializable {
         int value = (int) rotationSlider.getValue();
         value = value * -1;
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.FreeRotation(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
@@ -1063,6 +1136,7 @@ public class FXMLDocumentController implements Initializable {
         int valueX = (int) panXSlider.getValue();
         int valueY = (int) panYSlider.getValue();
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(neptune.freePanning(ourImage.getOriginal(), valueX, valueY), null);
         imgV.setImage(image);
     }
@@ -1080,6 +1154,7 @@ public class FXMLDocumentController implements Initializable {
         double value = brightSlider.getValue();
         
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
@@ -1098,6 +1173,7 @@ public class FXMLDocumentController implements Initializable {
         double value = brightNSlider.getValue();
         
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(globalFilter.negativeBrightness(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }
@@ -1112,6 +1188,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(histogramFilter.histogram(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1128,6 +1205,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(histogramFilter.histogramFlatten(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1143,6 +1221,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(globalFilter.blackWhite(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1162,7 +1241,7 @@ public class FXMLDocumentController implements Initializable {
         kernel[0][0]= -1;
         kernel[1][0]= 1;
         
-
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1222,7 +1301,7 @@ public class FXMLDocumentController implements Initializable {
         }
     } 
         
-        
+        ourImage.newAction(ourImage.getResult());
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         ourImage.setResult(localFilter.kernelApplier(tempImage, kernelY));
         
@@ -1252,7 +1331,7 @@ public class FXMLDocumentController implements Initializable {
             kernelY[0][i] = 1;
         }
         
-        
+        ourImage.newAction(ourImage.getResult());
         BufferedImage tempImage = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         ourImage.setResult(localFilter.kernelApplier(tempImage, kernelY));
         
@@ -1479,7 +1558,7 @@ public class FXMLDocumentController implements Initializable {
             kernel[6][6] = 2;
             
         }
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         
         //BufferedImage image2 = (localFilter.kernelApplier(ourImage.getOriginal(), kernel));
@@ -1503,7 +1582,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         int [][] kernel = new int[localsSizeX][localsSizeY];
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.mediana(ourImage.getOriginal(), kernel));
         
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
@@ -1523,7 +1602,7 @@ public class FXMLDocumentController implements Initializable {
         
         
         int [][] kernel = new int[localsSizeX][localsSizeY];
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.maximo(ourImage.getOriginal(), kernel));
         
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
@@ -1543,7 +1622,7 @@ public class FXMLDocumentController implements Initializable {
         
         
         int [][] kernel = new int[localsSizeX][localsSizeY];
-        
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.minimo(ourImage.getOriginal(), kernel));
         
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
@@ -1594,7 +1673,7 @@ public class FXMLDocumentController implements Initializable {
             tempImage = vectorDir == 'X' ? tempImage : tempImageY;
         }
         
-        
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         
         imgV.setImage(image);
@@ -1687,7 +1766,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
-        
+        ourImage.newAction(ourImage.getResult());
         imgV.setImage(image);
 
     }
@@ -1736,7 +1815,7 @@ public class FXMLDocumentController implements Initializable {
         
         Image image = SwingFXUtils.toFXImage(tempImage, null);
         
-        
+        ourImage.newAction(ourImage.getResult());
         imgV.setImage(image);
     }
 @FXML
@@ -1777,6 +1856,7 @@ public class FXMLDocumentController implements Initializable {
         kernel[3][4]= 1;
         kernel[4][4]= 0;
         
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(localFilter.kernelApplier(ourImage.getOriginal(), kernel));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1861,6 +1941,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(ourImage.getOriginal());
         rotationSlider.setVisible(true);
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
@@ -1877,6 +1958,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(ourImage.getOriginal());
         panXSlider.setMax(ourImage.getResult().getWidth() );
         panXSlider.setMin( -1 * ourImage.getResult().getWidth());
@@ -1898,6 +1980,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
+        ourImage.newAction(ourImage.getResult());
         ourImage.setResult(geometricFilter.rotateRToL(ourImage.getOriginal()));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
@@ -1930,6 +2013,7 @@ public class FXMLDocumentController implements Initializable {
         double value = brightSlider.getValue();
         
         //ourImage.setResult();
+        ourImage.newAction(ourImage.getResult());
         Image image = SwingFXUtils.toFXImage(globalFilter.brigthness(ourImage.getOriginal(), value), null);
         imgV.setImage(image);
     }

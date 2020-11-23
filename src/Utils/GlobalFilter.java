@@ -12,7 +12,9 @@ import Utils.Neptune;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -20,6 +22,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.TermCriteria;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import static org.opencv.imgproc.Imgproc.accumulate;
@@ -157,6 +160,76 @@ public class GlobalFilter {
             }
         }
         return result;
+    }
+   
+    public BufferedImage kmeans(BufferedImage original, int colorNumber){
+        
+        BufferedImage result;
+        Neptune a = new Neptune();
+        Mat origin = a.matify(original);
+        int n = origin.rows()*origin.cols();
+        Mat dst = origin.reshape(1,n);
+        int k = colorNumber;
+        
+        if(colorNumber < 3){
+            k = 3;
+        }
+        
+        dst.convertTo(dst, CvType.CV_32F);
+        Mat labels = new Mat();
+	TermCriteria criteria = new TermCriteria(TermCriteria.COUNT, 100, 1);
+	Mat centers = new Mat();
+	Core.kmeans(dst, k, labels, criteria, 1, Core.KMEANS_PP_CENTERS, centers);
+        
+	
+        System.out.println(dst);
+        System.out.println(labels);
+        System.out.println(centers);
+            
+        for(int i = 0; i < n; i++){
+            
+            int index = findTag(centers, labels.get(i, 0));
+            
+            dst.put(i,0, centers.get(index,0));
+            dst.put(i,1, centers.get(index,1));
+            dst.put(i,2, centers.get(index,2));
+        }
+        
+        int rows = 0;
+        
+        
+  /*      
+        for (int i = 0; i < n; ++i)
+        {
+            dst.set(i, 0) = colors(labels[i], 0);
+            data.at<float>(i, 1) = colors(labels[i], 1);
+            data.at<float>(i, 2) = colors(labels[i], 2);
+        }
+*/
+        Mat reduced = dst.reshape(3, origin.rows());
+        dst.convertTo(dst, CvType.CV_8U);
+        reduced.convertTo(reduced, CvType.CV_8U);
+        System.out.println(reduced);
+        origin = reduced;
+        
+        try{
+            
+            result = bufferize(origin);
+            
+        }catch(IOException ex){
+            
+            result = original;
+            
+        }
+        
+        return result;
+        
+    }
+    
+    public int findTag(Mat colors, double[] label){
+        
+        return (int) label[0];
+        
     }
     
     public BufferedImage otsu(BufferedImage original){
