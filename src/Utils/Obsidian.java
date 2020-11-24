@@ -69,7 +69,7 @@ public class Obsidian {
             imgMat.put(0, 0, imgPixels);
         }
 
-        System.out.println("matify exec millis: " + (System.currentTimeMillis() - millis));
+        
 
         return imgMat;
     }
@@ -220,7 +220,7 @@ public class Obsidian {
         // Equalizing the histogra originm of the image
         
         
-        System.out.println(g);
+        
         Core.merge(newChannels, origin);
         //Imgproc.equalizeHist( origin, resultMat );
         result = bufferize(origin);
@@ -237,7 +237,7 @@ public class Obsidian {
         
         List<Mat> channels = new ArrayList<Mat>();
         Core.split(origin, channels);
-        System.out.println(channels);
+        
         Mat g = channels.get(0);
         Mat b = channels.get(1);
         Mat r = channels.get(2);

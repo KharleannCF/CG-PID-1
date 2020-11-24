@@ -95,11 +95,22 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button kernelPersonalizado;
     @FXML
+    private Button fourierButton;
+    @FXML
+    private Button invFourierButton;
+    @FXML
     private TextField zoomX;
     @FXML
     private TextField zoomY;
     @FXML
     private TextField kMeansTextField;
+    
+    @FXML
+    private TextField fillX;
+    @FXML
+    private TextField fillY;
+    @FXML
+    private TextField diferencia;
     
     @FXML
     private Button ZoomInBilineal;
@@ -182,6 +193,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
      private RadioButton vecindad8;
     @FXML
+     private RadioButton vec4;
+    @FXML
+     private RadioButton vec8;
+    @FXML
+     private RadioButton floating;
+    @FXML
+     private RadioButton fixed;
+    @FXML
      private RadioButton cajaButton;
     @FXML
      private RadioButton crossButton;
@@ -206,6 +225,9 @@ public class FXMLDocumentController implements Initializable {
     Obsidian obsidian = new Obsidian();
     int borderKernelSize = 3;
     int robertsSize = 2;
+    
+    int vec = 4;
+    int range = 0;
     char vectorDir ='M';
     char formElem = 'O';
     int localsSizeX = 1;
@@ -213,6 +235,30 @@ public class FXMLDocumentController implements Initializable {
     
     int vecindad = 4;
     
+    @FXML
+    private void selected4vec(ActionEvent event) throws IOException {
+    vec4.setSelected(true);
+    vec8.setSelected(false);
+    vec = 4;
+    }
+    @FXML
+    private void selected8vec(ActionEvent event) throws IOException {
+    vec8.setSelected(true);
+    vec4.setSelected(false);
+    vec = 4;
+    }
+    @FXML
+    private void selectedRanFix(ActionEvent event) throws IOException {
+    fixed.setSelected(true);
+    floating.setSelected(false);
+    range = 0 ;
+    }
+    @FXML
+    private void selectedRanFloat(ActionEvent event) throws IOException {
+    floating.setSelected(true);
+    fixed.setSelected(false);
+    range = 1;
+    }
     
     @FXML
     private void selected3(ActionEvent event) throws IOException {
@@ -260,6 +306,30 @@ public class FXMLDocumentController implements Initializable {
         int k = Integer.parseInt(number);
         ourImage.newAction(ourImage.getResult());
         ourImage.setResult(globalFilter.kmeans(ourImage.getResult(),k));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    private void fill(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        
+        String number = fillX.getText();
+        int X = Integer.parseInt(number);
+        number = fillY.getText();
+        int Y = Integer.parseInt(number);
+        number = diferencia.getText();
+        int diff = Integer.parseInt(number);
+        ourImage.newAction(ourImage.getOriginal());
+        ourImage.setResult(neptune.floodFill(ourImage.getOriginal(),vec,range, X,Y, diff));
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
@@ -750,10 +820,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         ourImage.newAction(ourImage.getResult());
-        Image image = SwingFXUtils.toFXImage(neptune.dilatacion(ourImage.getOriginal(), formElem), null);
+        ourImage.setResult(neptune.dilatacion(ourImage.getOriginal(), formElem));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
-        saveButton.setVisible(false);
-        doneButton.setVisible(true);
     }
     @FXML
     private void  openMorph(ActionEvent event) throws IOException {
@@ -767,10 +836,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         ourImage.newAction(ourImage.getResult());
-        Image image = SwingFXUtils.toFXImage(neptune.openKernel(ourImage.getOriginal(), formElem), null);
+        ourImage.setResult(neptune.openKernel(ourImage.getOriginal(), formElem));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
-        saveButton.setVisible(false);
-        doneButton.setVisible(true);
     }
     @FXML
     private void  closeMorph(ActionEvent event) throws IOException {
@@ -784,10 +852,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Picture not found");
         }
         ourImage.newAction(ourImage.getResult());
-        Image image = SwingFXUtils.toFXImage(neptune.closeKernel(ourImage.getOriginal(), formElem), null);
+        ourImage.setResult(neptune.closeKernel(ourImage.getOriginal(), formElem));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
-        saveButton.setVisible(false);
-        doneButton.setVisible(true);
     }
     
     @FXML
@@ -801,11 +868,9 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Picture not found");
         }
-        ourImage.newAction(ourImage.getResult());
-        Image image = SwingFXUtils.toFXImage(neptune.erosion(ourImage.getOriginal(), formElem), null);
+        ourImage.setResult(neptune.erosion(ourImage.getOriginal(), formElem));
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
-        saveButton.setVisible(false);
-        doneButton.setVisible(true);
     }
     
     @FXML
@@ -1073,6 +1138,7 @@ public class FXMLDocumentController implements Initializable {
     private void doneUmbral(ActionEvent event){
         Image actual = imgV.getImage();
         BufferedImage newImage = SwingFXUtils.fromFXImage(actual, null);
+        ourImage.newAction(newImage);
         ourImage.setResult(newImage);
         if(borders.isVisible() == false){
         doneButton.setVisible(false);
@@ -1085,6 +1151,46 @@ public class FXMLDocumentController implements Initializable {
         panYSlider.setVisible(false);
         }
        }
+    
+    
+    @FXML
+    private void fourier(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.newAction(ourImage.getResult());
+        ourImage.setResult(neptune.fourier(ourImage.getOriginal(), ourImage));
+        invFourierButton.setVisible(true);
+        fourierButton.setVisible(false);
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
+    @FXML
+    private void inFourier(ActionEvent event) throws IOException {
+        try {
+            if (ourImage.getResult()!=null){
+                ourImage.setOriginal(ourImage.getResult());
+            }else{
+                ourImage.setOriginal(ImageIO.read(new File("./src/images/Desert.bmp")));
+            }
+        } catch (IOException ex) {
+            System.out.println("Picture not found");
+        }
+        ourImage.newAction(ourImage.getResult());
+        ourImage.setResult(neptune.invFourier(ourImage.getOriginal(), ourImage));
+        invFourierButton.setVisible(false);
+        fourierButton.setVisible(true);
+        Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
+        imgV.setImage(image);
+    }
+    
     
     
     @FXML
@@ -1926,7 +2032,7 @@ public class FXMLDocumentController implements Initializable {
            doneButton.setVisible(false);
            saveButton.setVisible(true);
            localsButton.setVisible(true);
-           morphButton.setLayoutX(552);
+           morphButton.setLayoutX(447);
            morphButton.setText("Morphs");
        }
     }
@@ -1944,8 +2050,10 @@ public class FXMLDocumentController implements Initializable {
         ourImage.newAction(ourImage.getResult());
         ourImage.setResult(ourImage.getOriginal());
         rotationSlider.setVisible(true);
+        saveButton.setVisible(false);
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
+        doneButton.setVisible(true);
     }
     @FXML
     private void freePan(ActionEvent event) throws IOException {
@@ -1966,6 +2074,8 @@ public class FXMLDocumentController implements Initializable {
         panYSlider.setMin( -1 * ourImage.getResult().getHeight());
         panXSlider.setVisible(true);
         panYSlider.setVisible(true);
+        saveButton.setVisible(false);
+        doneButton.setVisible(true);
         Image image = SwingFXUtils.toFXImage(ourImage.getResult(), null);
         imgV.setImage(image);
     }
