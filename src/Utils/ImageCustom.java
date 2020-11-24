@@ -24,7 +24,8 @@ public class ImageCustom {
     public int width;
     public int height;
     public int totalColors;
-    
+    public List<Mat> allPlanes;
+    public Mat complexImage;
     
     public ImageCustom(){
         width = 0;
@@ -66,6 +67,18 @@ public class ImageCustom {
         
     }
     
+    public void addPlanes(List<Mat> planes){
+        this.allPlanes = planes;
+    }
+    public List<Mat>  getPlanes(){
+        return this.allPlanes;
+    }
+    public void addImage(Mat planes){
+        this.complexImage = planes;
+    }
+    public Mat getImage(){
+        return this.complexImage;
+    }
     public void setOriginal(BufferedImage img){
         this.original = img;
     }
